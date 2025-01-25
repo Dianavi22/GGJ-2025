@@ -4,8 +4,8 @@ using Player;
 using UnityEngine;
 
 namespace Bubble {
-    [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(CircleCollider2D))]
+    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(SphereCollider))]
     public class BubbleGrowth : MonoBehaviour {
         [SerializeField] private float _initialSize;
         [SerializeField] private float _shrinkPerSecond;
@@ -47,7 +47,7 @@ namespace Bubble {
             UpdateSize(-offset);
         }
 
-        private void OnTriggerExit2D(Collider2D other) {
+        private void OnTriggerExit(Collider other) {
             if (other.TryGetComponent(out PlayerProjectile projectile)) {
                 StartCoroutine(GrowTo(projectile.GrowthValue, _playerHitGrowthDuration));
                 _sc.ShakyCameCustom(0.07f, 0.2f);
