@@ -18,10 +18,10 @@ public class SpawnerManager : MonoBehaviour {
 
         if (_timeElapsed > _timeTresholdToCreateMonsters) {
             _timeElapsed = 0;
-            _spawners.ForEach(spwaner => {
+            _spawners.ForEach(spawner => {
                 System.Random random = new();
                 // active ones will spawns enemies.
-                spwaner.Spawn(random.Next(0, 2) == 0 ? MonsterType.PlayerAttacker : MonsterType.BubbleAttacker);
+                spawner.Spawn(random.Next(0, 2) == 0 ? MonsterType.PlayerAttacker : MonsterType.BubbleAttacker);
             });
         }
     }
