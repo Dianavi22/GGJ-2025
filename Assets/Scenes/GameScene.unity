@@ -739,6 +739,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ed7069f6685cf24abdecdcf8b8df3fa, type: 3}
+--- !u!1 &824408524 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4337989318582305511, guid: 5ed7069f6685cf24abdecdcf8b8df3fa, type: 3}
+  m_PrefabInstance: {fileID: 824408523}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &927803756
 GameObject:
   m_ObjectHideFlags: 0
@@ -1546,6 +1551,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d43a54500b6ae04d87556bbb8d54a74, type: 3}
+--- !u!1 &1381615009 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8596553909162177302, guid: 4d43a54500b6ae04d87556bbb8d54a74, type: 3}
+  m_PrefabInstance: {fileID: 1381615008}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1530578722
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2008,12 +2018,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlaying: 0
+  spawnerManager: {fileID: 1871199663}
   MainMenuCanvas: {fileID: 1147165906}
   PauseMenuCanvas: {fileID: 987648664}
   GameOverCanvas: {fileID: 1569720147}
   UICanvas: {fileID: 382112889}
   WinText: {fileID: 1159386307}
   DeadText: {fileID: 1569720149}
+  player: {fileID: 824408524}
+  laBulle: {fileID: 1381615009}
 --- !u!1 &1871199662
 GameObject:
   m_ObjectHideFlags: 0

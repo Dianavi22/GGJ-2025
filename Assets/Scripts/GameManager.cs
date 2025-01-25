@@ -1,4 +1,6 @@
+using Bubble;
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Assets.Scripts {
@@ -6,6 +8,10 @@ namespace Assets.Scripts {
 
         [Header("Public Attributes")]
         public bool isPlaying = false;
+
+        [Header("Manager")]
+        [SerializeField] SpawnerManager spawnerManager;
+
 
         [Header("Game Canvas")]
         [SerializeField] Canvas MainMenuCanvas;
@@ -16,6 +22,15 @@ namespace Assets.Scripts {
         [Header("End Game Text")]
         [SerializeField] GameObject WinText;
         [SerializeField] GameObject DeadText;
+
+        [Header("Initialize Setup")]
+        [SerializeField] GameObject player;
+        [SerializeField] GameObject laBulle;
+
+        // Save InitialePosition
+        private Transform _initialeBubbleTransform;
+        private float _initialeBubbleSize;
+        private Transform _initialePlayerTransform;
 
 
         private int _level = 0;
@@ -37,6 +52,22 @@ namespace Assets.Scripts {
                     _instance = new GameManager();
                 }
                 return _instance;
+            }
+        }
+        public void Awake() {
+
+        }
+
+        public void Start() {
+            _initialeBubbleTransform = laBulle.transform;
+            _initialePlayerTransform = player.transform;
+            _initialeBubbleSize = laBulle.GetComponent<BubbleGrowth>().initialSize;
+
+        }
+
+        public void Update() {
+            if ((Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape)) && isPlaying) {
+                Pause();
             }
         }
 
@@ -104,7 +135,6 @@ namespace Assets.Scripts {
         }
 
         public void Win() {
-            Debug.Log("Win");
             isPlaying = false;
             WinText.SetActive(true);
             DeadText.SetActive(false);
@@ -133,6 +163,15 @@ namespace Assets.Scripts {
             }
         }
 
-        public void ResetGame() { }
+        public void ResetGame() {
+            player.transform.position = _initialePlayerTransform.position;
+            laBulle.transform.position = _initialeBubbleTransform.position;
+            laBulle.transform.localScale = new Vector3(_initialeBubbleSize, _initialeBubbleSize, _initialeBubbleSize);
+
+            spawnerManager._spawners.ForEach(spawner => {
+                Destroy(spawner);
+                spawnerManager._spawners.Remove(spawner);
+            });
+        }
     }
 }

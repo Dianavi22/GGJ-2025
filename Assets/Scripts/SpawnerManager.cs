@@ -3,7 +3,8 @@ using System.Linq;
 using UnityEngine;
 
 public class SpawnerManager : MonoBehaviour {
-    private List<Spawner> _spawners = new();
+
+    public List<Spawner> _spawners = new();
 
     private float _timeElapsed = 0;
     private float _timeTresholdToCreateMonsters = 1;
