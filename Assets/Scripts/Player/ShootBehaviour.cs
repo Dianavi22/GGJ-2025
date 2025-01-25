@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,7 +24,8 @@ namespace Player {
         [SerializeField] private bool _longpress = true;
 
         [SerializeField] private ParticleSystem _shootPart;
-
+        [SerializeField] private ParticleSystem _shootSpecialPart;
+        [SerializeField] Animator _shootAnim;
         private Coroutine _shootCoroutine;
         private float _cooldownElapsedTime, _chargingElapsedTime;
         private bool _isInCooldown = false;
@@ -41,6 +43,10 @@ namespace Player {
             if (_isInCooldown) {
                 _cooldownElapsedTime += Time.deltaTime;
                 _isInCooldown = _cooldownElapsedTime < _cooldown;
+                if (!_isInCooldown) {
+                    _shootAnim.SetBool("isShooting", false);
+
+                }
             }
 
             if (_isInCooldown) {
@@ -51,7 +57,7 @@ namespace Player {
         }
 
         private void ClickShoot() {
-            if (_shootKeys.Any(Input.GetKeyDown) || Input.GetMouseButtonDown(0)) {
+            if (_shootKeys.Any(Input.GetKeyDown) || Input.GetMouseButtonDown(0) && GameManager.Instance.isPlaying) {
                 if (_shootCoroutine != null) {
                     Shoot(IsPerfectRange());
                 } else {
@@ -66,8 +72,8 @@ namespace Player {
                 float k = _chargingElapsedTime / _sliderFillDuration;
                 _slider.value = Mathf.Lerp(0, 1, k);
             } else if (0 < _slider.value) {
-                _shootPart.Play();
                 Shoot(IsPerfectRange());
+
             }
         }
 
@@ -91,6 +97,7 @@ namespace Player {
 
         private void Shoot(bool isTimed) {
             GameObject projectileToSpawn = isTimed ? _projectileSpecialPrefab : _projectilePrefab;
+            _shootAnim.SetBool("isShooting", true);
 
             // Firing
             PlayerProjectile projectile = Instantiate(projectileToSpawn, _shootPosition.position, Quaternion.identity).GetComponent<PlayerProjectile>();
@@ -103,8 +110,12 @@ namespace Player {
 
 
             if (isTimed) {
+                projectile.isTimed = true;
+                _shootSpecialPart.Play();
                 _combo++;
             } else {
+                projectile.isTimed = false;
+                _shootPart.Play();
                 _combo = 0;
             }
 

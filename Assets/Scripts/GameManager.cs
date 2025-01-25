@@ -43,7 +43,6 @@ namespace Assets.Scripts {
         private float _nb_sucessful_shoots = 0;
 
         private WeaponTypeEnum _weaponLevelEnum = WeaponTypeEnum.Level1;
-
         private static GameManager _instance;
 
         private bool _isPaused = false;

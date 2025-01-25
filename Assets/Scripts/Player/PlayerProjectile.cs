@@ -9,7 +9,7 @@ namespace Player {
         [SerializeField, Tooltip("Growth value when hitting the bubble (in m)")] private float _growthValue;
         [SerializeField] private bool _isPiercing;
         [SerializeField] ParticleSystem _trailPart;
-
+        public bool isTimed;
         // Direction of this projectile. Need to be set when fired.
         public Vector2 Direction;
 

@@ -12,8 +12,8 @@ namespace Bubble {
         [SerializeField] private float _playerHitGrowthDuration;
         [SerializeField] private ShakyCame _sc;
         [SerializeField] private ParticleSystem _bubblesPart;
-       
-
+        [SerializeField] private ParticleSystem _destroyProj;
+        [SerializeField] private ParticleSystem _destroySprProj;
         private bool _growing = false;
 
         private void Awake() {
@@ -21,6 +21,9 @@ namespace Bubble {
         }
 
         private GameManager _gameManager = GameManager.Instance;
+        private void Start() {
+            _gameManager.isPlaying = true;
+        }
 
         private void Update() {
 
@@ -36,7 +39,10 @@ namespace Bubble {
                 _gameManager.Win();
             }
 
-            Shrink(_shrinkPerSecond * Time.deltaTime);
+
+            if (_gameManager.isPlaying) {
+                Shrink(_shrinkPerSecond * Time.deltaTime);
+            }
         }
 
         public void Grow(float offset) {
@@ -55,6 +61,13 @@ namespace Bubble {
                 Vector3 direction = projectile.Direction.normalized;
                 _bubblesPart.transform.rotation = Quaternion.Euler(direction.y * -90, direction.x * 90, 0);
                 _bubblesPart.Play();
+                if (projectile.isTimed) {
+                    _destroySprProj.transform.position = projectile.transform.position;
+                    _destroySprProj.Play();
+                } else {
+                    _destroyProj.transform.position = projectile.transform.position;
+                    _destroyProj.Play();
+                }
                 Destroy(other.gameObject);
             }
         }
