@@ -1,7 +1,7 @@
 using Math;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody))]
 public class SecondOrderDynamic : MonoBehaviour {
     public Transform Target;
 
@@ -15,11 +15,11 @@ public class SecondOrderDynamic : MonoBehaviour {
     [SerializeField, Range(-5, 5), Tooltip("Initial Respond")] private float _r = 2;
 
     private Vector3 _position, _velocity, _previousTargetPosition;
-    private Rigidbody2D _rigidbody;
+    private Rigidbody _rigidbody;
     private float _k1, _k2, _k3;
 
     private void Awake() {
-        _rigidbody = GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody>();
         (_k1, _k2, _k3) = CustomMath.ComputeSecondOrderConstants(_f, _zeta, _r);
         _position = transform.position;
     }

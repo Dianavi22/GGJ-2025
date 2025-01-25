@@ -22,11 +22,11 @@ public class Spawner : MonoBehaviour {
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter(Collider other) {
         PassThroughActivator(other.gameObject.layer);
     }
 
-    private void OnTriggerExit2D(Collider2D other) {
+    private void OnTriggerExit(Collider other) {
         PassThroughActivator(other.gameObject.layer);
     }
 

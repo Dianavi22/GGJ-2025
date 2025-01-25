@@ -3,17 +3,17 @@ using Math;
 using UnityEngine;
 
 namespace Player {
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Rigidbody))]
     public class PlayerProjectile : MonoBehaviour {
         [SerializeField, Tooltip("Speed of the projectile (in m/s)")] private float _speed;
         [SerializeField, Tooltip("Growth value when hitting the bubble (in m)")] private float _growthValue;
         [SerializeField] private bool _isPiercing;
-        [SerializeField] ParticleSystem  _trailPart;
+        [SerializeField] ParticleSystem _trailPart;
 
         // Direction of this projectile. Need to be set when fired.
         public Vector2 Direction;
 
-        private Rigidbody2D _rigidbody;
+        private Rigidbody _rigidbody;
         private Plane[] _cameraFrustumPlanes;
         private Renderer _renderer;
         private Action _onDistroy;
@@ -22,7 +22,7 @@ namespace Player {
         public Action OnDestroy { set { _onDistroy = value; } }
 
         private void Awake() {
-            _rigidbody = GetComponent<Rigidbody2D>();
+            _rigidbody = GetComponent<Rigidbody>();
             _renderer = GetComponentInChildren<Renderer>();
         }
 
@@ -40,10 +40,10 @@ namespace Player {
         }
 
         private void FixedUpdate() {
-            _rigidbody.MovePosition(_rigidbody.position + _speed * Time.fixedDeltaTime * Direction);
+            _rigidbody.MovePosition(_rigidbody.position + _speed * Time.fixedDeltaTime * (Vector3)Direction);
         }
 
-        private void OnTriggerEnter2D(Collider2D other) {
+        private void OnTriggerEnter(Collider other) {
             if (other.TryGetComponent(out SimpleMonster monster)) {
                 monster.TakeDamage();
 
