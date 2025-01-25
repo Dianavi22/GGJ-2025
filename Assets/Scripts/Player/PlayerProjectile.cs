@@ -38,8 +38,8 @@ namespace Player {
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
-            if(other.TryGetComponent<SimpleMonster>(out _)) {
-                other.TakeDamage();
+            if(other.TryGetComponent(out SimpleMonster monster)) {
+                monster.TakeDamage();
 
                 if(!_isPiercing) {
                     Destroy(gameObject);
