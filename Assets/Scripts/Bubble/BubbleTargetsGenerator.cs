@@ -1,0 +1,63 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class BubbleTargetsGenerator : MonoBehaviour {
+
+    public List<GameObject> bubbleTargetPoints = new();
+
+    // Start is called before the first frame update
+    void Start() {
+        StartCoroutine(ComputeTargets());
+    }
+
+    IEnumerator ComputeTargets() {
+        while (true) {
+
+            bubbleTargetPoints.ForEach(p => {
+                Destroy(p.gameObject);
+            });
+            bubbleTargetPoints.Clear();
+
+            MeshFilter meshFilter = GetComponent<MeshFilter>();
+
+            int count = meshFilter.mesh.vertices.Count();
+
+            for (int i = 0; i < count; i++) {
+                Vector3 currentVerticeVector3 = meshFilter.mesh.vertices[i];
+                if (Mathf.Abs(currentVerticeVector3.y) < 0.01f) {
+                    Debug.Log("'Equator vertice found");
+                    GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    obj.GetComponent<Renderer>().material.color = Color.red;
+                    obj.transform.position = transform.position + new Vector3(currentVerticeVector3.x, currentVerticeVector3.y, currentVerticeVector3.z);
+                    obj.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+                    bubbleTargetPoints.Add(obj);
+                }
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    private void CreateMesh() {
+        //Mesh mesh = new Mesh();
+
+
+        //List<System.Numerics.Vector3> allVertices = new();
+
+        //for(int i = 0; i < 60; i++) {
+        //    float angle = 2 * Mathf.PI * i / 60;
+        //    System.Numerics.Vector3 vector = new() {
+        //        X = Mathf.Cos(angle),
+        //        Y = Mathf.Sin(angle),
+        //        Z = 0
+        //    };
+
+        //    allVertices.Add(vector);
+        //}
+
+        //mesh.vertices.AddRange(allVertices);
+
+        //GetComponent<MeshFilter>().mesh = mesh;
+    }
+}
