@@ -14,7 +14,6 @@ namespace Bubble {
         [SerializeField] private ParticleSystem _bubblesPart;
         [SerializeField] private ParticleSystem _destroyProj;
         [SerializeField] private ParticleSystem _destroySprProj;
-        [SerializeField] SpawnVFX _spawnVFX;
         private bool _growing = false;
 
         private void Awake() {
@@ -23,6 +22,7 @@ namespace Bubble {
 
         private GameManager _gameManager = GameManager.Instance;
 
+       
         private void Update() {
 
             if (_growing) {
