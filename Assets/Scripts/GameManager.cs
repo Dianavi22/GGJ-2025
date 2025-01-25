@@ -98,7 +98,7 @@ namespace Assets.Scripts
             isPlaying = false;
         }
 
-        public WeaponLevelEnum GetWeaponLevelEnum()
+        public WeaponTypeEnum GetWeaponLevelEnum()
         {
             return _weaponLevelEnum;
         }
