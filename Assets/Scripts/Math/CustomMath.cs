@@ -43,6 +43,11 @@ namespace Math {
         public static float GetXAngle(Vector2 origin, Vector2 target) {
             return Mathf.Atan2(target.y - origin.y, target.x - origin.x);
         }
+
+        public static Vector2 RotateVectorAroundOrigin(Vector2 vector, float angle) {
+            angle *= Mathf.Deg2Rad;
+            return new Vector2(Mathf.Cos(angle) * vector.x - Mathf.Sin(angle) * vector.y, Mathf.Sin(angle) * vector.x + Mathf.Cos(angle) * vector.y).normalized;
+        }
     }
 }
 
