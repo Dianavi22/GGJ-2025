@@ -42,7 +42,7 @@ public class BubbleTargetsGenerator : MonoBehaviour {
 
     public GameObject CreateEmptyGameObject() {
         //spawn object
-        GameObject gameobject = new GameObject("Cool GameObject made from Code");
+        GameObject gameobject = new GameObject("Bubble target point");
         //Add Components
         gameobject.AddComponent<Rigidbody>();
         gameobject.AddComponent<MeshFilter>();
