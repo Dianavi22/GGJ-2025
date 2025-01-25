@@ -8,8 +8,8 @@ namespace Assets.Scripts
         private int _score = 0;
 
         private float _precision_percentage = 100;
-        public float _nb_shoots = 0;
-        public float _nb_sucessful_shoots = 0;
+        private float _nb_shoots = 0;
+        private float _nb_sucessful_shoots = 0;
 
         private WeaponLevelEnum _weaponLevelEnum = WeaponLevelEnum.Level1;
 
@@ -28,8 +28,6 @@ namespace Assets.Scripts
         }
 
         private GameManager() { }
-
-
 
         public int GetLevel()
         {
