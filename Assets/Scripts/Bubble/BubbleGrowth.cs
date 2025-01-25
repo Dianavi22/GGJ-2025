@@ -21,8 +21,10 @@ namespace Bubble {
         }
 
         private GameManager _gameManager = GameManager.Instance;
+        private void Start() {
+            _gameManager.isPlaying = true;
+        }
 
-       
         private void Update() {
 
             if (_growing) {
@@ -59,7 +61,6 @@ namespace Bubble {
                 Vector3 direction = projectile.Direction.normalized;
                 _bubblesPart.transform.rotation = Quaternion.Euler(direction.y * -90, direction.x * 90, 0);
                 _bubblesPart.Play();
-                Transform transform = projectile.transform;
                 if (projectile.isTimed) {
                     _destroySprProj.transform.position = projectile.transform.position;
                     _destroySprProj.Play();
