@@ -91,7 +91,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -111,6 +111,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 2.5
   _growthValue: 0.15
+  isPiercing: 0
+  Direction: {x: 0, y: 0}
 --- !u!1 &6122805598301210984
 GameObject:
   m_ObjectHideFlags: 0
