@@ -16,7 +16,6 @@ public class BubbleTargetsGenerator : MonoBehaviour {
 
     IEnumerator ComputeTargets() {
         while (true) {
-            Debug.Log("ComputeTargets");
             bubbleTargetPoints.ForEach(p => {
                 Destroy(p.gameObject);
             });
