@@ -8,7 +8,7 @@ namespace Player {
         [SerializeField] private bool isPiercing;
 
         // Direction of this projectile. Need to be set when fired.
-        public Vector2 Direction { private get; set; }
+        public Vector2 Direction;
 
         private Rigidbody2D _rigidbody;
         private Plane[] _cameraFrustumPlanes;

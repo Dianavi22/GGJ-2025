@@ -9,6 +9,8 @@ namespace Bubble {
         [SerializeField] private float _initialSize;
         [SerializeField] private float _shrinkPerSecond;
         [SerializeField] private float _playerHitGrowthDuration;
+        [SerializeField] private ShakyCame _sc;
+        [SerializeField] private ParticleSystem _bubblesPart;
 
         private bool _growing = false;
 
@@ -31,9 +33,16 @@ namespace Bubble {
         private void OnTriggerExit2D(Collider2D other) {
             if (other.TryGetComponent(out PlayerProjectile projectile)) {
                 StartCoroutine(GrowTo(projectile.GrowthValue, _playerHitGrowthDuration));
+                _sc.ShakyCameCustom(0.07f, 0.2f);
+                //_bubblesPart.transform.position = other.transform.position;
+                //Vector3 direction = projectile.Direction.normalized;
+                //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                //_bubblesPart.transform.rotation = Quaternion.Euler(0, angle, angle);
+                //_bubblesPart.Play();
                 Destroy(other.gameObject);
             }
         }
+
 
         private void UpdateSize(float offset) {
             transform.localScale = GetLocalScaleWithOffset(offset);
