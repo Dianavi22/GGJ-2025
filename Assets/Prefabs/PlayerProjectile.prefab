@@ -114,7 +114,7 @@ MonoBehaviour:
   _speed: 2.5
   _growthValue: 0.5
   _isPiercing: 0
-  _trailPart: {fileID: 0}
+  _trailPart: {fileID: 7125437051019341173}
   Direction: {x: 0, y: 0}
 --- !u!1 &2178390877615822438
 GameObject:
@@ -654,5 +654,10 @@ PrefabInstance:
 --- !u!4 &586249996341918945 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4691585416588383436, guid: 456854417b6400b45b223ac8e7455564, type: 3}
+  m_PrefabInstance: {fileID: 5276278501881669677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &7125437051019341173 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3160322326114190680, guid: 456854417b6400b45b223ac8e7455564, type: 3}
   m_PrefabInstance: {fileID: 5276278501881669677}
   m_PrefabAsset: {fileID: 0}
