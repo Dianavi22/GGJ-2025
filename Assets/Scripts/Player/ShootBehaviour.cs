@@ -9,6 +9,7 @@ namespace Player {
     public class ShootBehaviour : MonoBehaviour {
         [Header("Shoot config")]
         [SerializeField] private GameObject _projectilePrefab;
+        [SerializeField] private GameObject _projectileSpecialPrefab;
         [SerializeField] private Transform _shootPosition;
         [SerializeField] private float _cooldown;
 
@@ -24,6 +25,7 @@ namespace Player {
         private Coroutine _shootCoroutine;
         private float _cooldownElapsedTime, _chargingElapsedTime;
         private bool _isInCooldown = false;
+        private int _combo = 0;
 
         private Action _shootCallback;
 
@@ -86,10 +88,18 @@ namespace Player {
         }
 
         private void Shoot(bool isTimed) {
+            GameObject projectileToSpawn = isTimed ? _projectileSpecialPrefab : _projectilePrefab;
+
             // Firing
-            PlayerProjectile projectile = Instantiate(_projectilePrefab, _shootPosition.position, Quaternion.identity).GetComponent<PlayerProjectile>();
+            PlayerProjectile projectile = Instantiate(projectileToSpawn, _shootPosition.position, Quaternion.identity).GetComponent<PlayerProjectile>();
             projectile.Direction = transform.right;
 
+            if(isTimed) {
+                _combo++;
+            } else {
+                _combo = 0;
+            }
+ 
             // Resetting values
             if (_shootCoroutine != null) {
                 StopCoroutine(_shootCoroutine);

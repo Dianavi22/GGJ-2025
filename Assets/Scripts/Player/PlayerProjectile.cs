@@ -5,6 +5,7 @@ namespace Player {
     public class PlayerProjectile : MonoBehaviour {
         [SerializeField, Tooltip("Speed of the projectile (in m/s)")] private float _speed;
         [SerializeField, Tooltip("Growth value when hitting the bubble (in m)")] private float _growthValue;
+        [SerializeField] private bool isPiercing;
 
         // Direction of this projectile. Need to be set when fired.
         public Vector2 Direction { private get; set; }
