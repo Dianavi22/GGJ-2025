@@ -8,6 +8,7 @@ namespace Player {
         [SerializeField, Tooltip("Speed of the projectile (in m/s)")] private float _speed;
         [SerializeField, Tooltip("Growth value when hitting the bubble (in m)")] private float _growthValue;
         [SerializeField] private bool _isPiercing;
+        [SerializeField] ParticleSystem  _trailPart;
 
         // Direction of this projectile. Need to be set when fired.
         public Vector2 Direction;
@@ -27,6 +28,7 @@ namespace Player {
 
         private void Start() {
             _cameraFrustumPlanes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+            _trailPart.transform.rotation = Quaternion.Euler(this.transform.localRotation.y * 90, this.transform.localRotation.x * -90, 0);
         }
 
         private void Update() {
