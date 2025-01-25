@@ -22,7 +22,7 @@ public class BubbleTargetsGenerator : MonoBehaviour {
             });
             bubbleTargetPoints.Clear();
 
-            MeshFilter meshFilter = GetComponent<MeshFilter>();
+            MeshFilter meshFilter = GetComponentInChildren<MeshFilter>();
 
             int count = meshFilter.mesh.vertices.Count();
 
