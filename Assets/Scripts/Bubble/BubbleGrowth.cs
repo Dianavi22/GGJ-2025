@@ -7,7 +7,7 @@ namespace Bubble {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(SphereCollider))]
     public class BubbleGrowth : MonoBehaviour {
-        [SerializeField] private float _initialSize;
+        [SerializeField] public float initialSize;
         [SerializeField] private float _shrinkPerSecond;
         [SerializeField] private float _playerHitGrowthDuration;
         [SerializeField] private ShakyCame _sc;
@@ -18,7 +18,7 @@ namespace Bubble {
         private bool _growing = false;
 
         private void Awake() {
-            UpdateSize(_initialSize - transform.localScale.x);
+            UpdateSize(initialSize - transform.localScale.x);
         }
 
         private GameManager _gameManager = GameManager.Instance;
