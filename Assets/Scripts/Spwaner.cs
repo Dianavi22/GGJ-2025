@@ -1,10 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.iOS;
 using UnityEngine;
 
 public class Spwaner : MonoBehaviour {
-    private bool _isActive = false;
+    public bool _isActive = false;
+
+    [SerializeField]
+    public GameObject bubbleAttacker;
+
+    [SerializeField]
+    public GameObject playerAttacker;
 
     void Start() {
 
@@ -15,15 +18,21 @@ public class Spwaner : MonoBehaviour {
             return;
         }
 
-        string monsterToLoad = monsterType == MonsterType.BubbleAttacker ? "Prefabs/BubbleAttacker" : "Prefabs/PlayerAttacker";
-
-        var myGameObject = Resources.Load(monsterToLoad) as GameObject;
-        myGameObject.transform.position = transform.position;
+        if(monsterType == MonsterType.BubbleAttacker ? bubbleAttacker : playerAttacker != null) {
+            Instantiate(monsterType == MonsterType.BubbleAttacker ? bubbleAttacker : playerAttacker,
+                transform.position, transform.rotation);
+        }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.gameObject.name == "Bubble") {
+    private void OnTriggerEnter(Collider collision) {
+        if (collision.gameObject.name == "Bubble_Activator") {
             _isActive = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if (other.gameObject.name == "Bubble_Activator") {
+            _isActive = false;
         }
     }
 }
