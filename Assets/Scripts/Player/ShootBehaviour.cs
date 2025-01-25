@@ -24,6 +24,7 @@ namespace Player {
         [SerializeField] private bool _longpress = true;
 
         [SerializeField] private ParticleSystem _shootPart;
+        [SerializeField] private ParticleSystem _shootSpecialPart;
         [SerializeField] Animator _shootAnim;
         private Coroutine _shootCoroutine;
         private float _cooldownElapsedTime, _chargingElapsedTime;
@@ -71,7 +72,6 @@ namespace Player {
                 float k = _chargingElapsedTime / _sliderFillDuration;
                 _slider.value = Mathf.Lerp(0, 1, k);
             } else if (0 < _slider.value) {
-                _shootPart.Play();
                 Shoot(IsPerfectRange());
 
             }
@@ -110,8 +110,10 @@ namespace Player {
 
 
             if (isTimed) {
+                _shootSpecialPart.Play();
                 _combo++;
             } else {
+                _shootPart.Play();
                 _combo = 0;
             }
 
