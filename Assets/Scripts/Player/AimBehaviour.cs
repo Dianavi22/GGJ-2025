@@ -2,18 +2,21 @@ using Math;
 using UnityEngine;
 
 namespace Player {
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Rigidbody))]
     public class Aim : MonoBehaviour {
-        private Rigidbody2D _rigidbody;
+        private Rigidbody _rigidbody;
 
         private void Awake() {
-            _rigidbody = GetComponent<Rigidbody2D>();
+            _rigidbody = GetComponent<Rigidbody>();
         }
 
         private void FixedUpdate() {
-            _rigidbody.SetRotation(GetMouseAngle() * Mathf.Rad2Deg);
+            Vector3 offsetRot = transform.forward * GetMouseAngle() * Mathf.Rad2Deg;
+            Quaternion targetRotQuat = Quaternion.Euler(offsetRot);
+
+            _rigidbody.MoveRotation(targetRotQuat);
         }
-        
+
         private float GetMouseAngle() {
             Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             worldMousePos.z = 0;

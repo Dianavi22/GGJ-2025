@@ -15,7 +15,6 @@ public class PerfectGlow : MonoBehaviour {
     }
 
     private void PerfectUpdateColor(float value) {
-        Debug.Log(value);
         if (value > 0.65 && value < 0.75) {
             image.color = new Color(1, 1, 0, 1);
         } else{
