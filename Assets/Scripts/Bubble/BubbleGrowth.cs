@@ -9,6 +9,7 @@ namespace Bubble {
         [SerializeField] private float _initialSize;
         [SerializeField] private float _shrinkPerSecond;
         [SerializeField] private float _playerHitGrowthDuration;
+        [SerializeField] private ShakyCame _sc;
 
         private bool _growing = false;
 
@@ -31,6 +32,7 @@ namespace Bubble {
         private void OnTriggerExit2D(Collider2D other) {
             if (other.TryGetComponent(out PlayerProjectile projectile)) {
                 StartCoroutine(GrowTo(projectile.GrowthValue, _playerHitGrowthDuration));
+                _sc.ShakyCameCustom(0.07f, 0.2f);
                 Destroy(other.gameObject);
             }
         }

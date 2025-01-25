@@ -11,9 +11,9 @@ public class ShakyCame : MonoBehaviour
 
     [Header("Configuration de la duree et de la distance de secousse")]
     private float _duration = 1f; 
-    private float _radius = 1; 
+    private float _radius = 1;
 
-    public bool isShaking = false; 
+    private bool isShaking = false; 
 
     Vector3 center = Vector3.zero; 
 
