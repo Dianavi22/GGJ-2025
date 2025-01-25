@@ -834,6 +834,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ed7069f6685cf24abdecdcf8b8df3fa, type: 3}
+--- !u!4 &433390470085743839 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3360585850841720040, guid: 5ed7069f6685cf24abdecdcf8b8df3fa, type: 3}
+  m_PrefabInstance: {fileID: 433390470085743838}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7324885748032300117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -886,6 +891,10 @@ PrefabInstance:
       propertyPath: _sc
       value: 
       objectReference: {fileID: 996248848}
+    - target: {fileID: 5146823349685588881, guid: 4d43a54500b6ae04d87556bbb8d54a74, type: 3}
+      propertyPath: Target
+      value: 
+      objectReference: {fileID: 433390470085743839}
     - target: {fileID: 8596553909162177302, guid: 4d43a54500b6ae04d87556bbb8d54a74, type: 3}
       propertyPath: m_Name
       value: Bubble
