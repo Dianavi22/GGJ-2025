@@ -203,10 +203,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bd05cf0e7086664fb08ca3fbe46c24b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 2.5
+  _speed: 4
   _growthValue: 0.7
   _isPiercing: 0
-  _trailPart: {fileID: 0}
+  _trailPart: {fileID: 1285370794587860769}
   Direction: {x: 0, y: 0}
 --- !u!54 &2221564599808306375
 Rigidbody:
@@ -253,15 +253,9 @@ SphereCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bd05cf0e7086664fb08ca3fbe46c24b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 3
-  _growthValue: 0.7
-  _isPiercing: 0
-  _trailPart: {fileID: 1285370794587860769}
-  Direction: {x: 0, y: 0}
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3982656788628719839
 GameObject:
   m_ObjectHideFlags: 0

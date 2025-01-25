@@ -110,9 +110,11 @@ namespace Player {
 
 
             if (isTimed) {
+                projectile.isTimed = true;
                 _shootSpecialPart.Play();
                 _combo++;
             } else {
+                projectile.isTimed = false;
                 _shootPart.Play();
                 _combo = 0;
             }
