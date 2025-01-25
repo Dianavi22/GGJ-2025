@@ -36,7 +36,10 @@ namespace Bubble {
                 _gameManager.Win();
             }
 
-            Shrink(_shrinkPerSecond * Time.deltaTime);
+
+            if (_gameManager.isPlaying) {
+                Shrink(_shrinkPerSecond * Time.deltaTime);
+            }
         }
 
         public void Grow(float offset) {

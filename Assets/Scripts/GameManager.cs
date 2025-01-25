@@ -14,9 +14,7 @@ namespace Assets.Scripts
         private float _nb_sucessful_shoots = 0;
 
         private WeaponTypeEnum _weaponLevelEnum = WeaponTypeEnum.Level1;
-
         private static GameManager _instance;
-
         public static GameManager Instance
         {
             get
