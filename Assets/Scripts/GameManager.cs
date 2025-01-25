@@ -11,7 +11,7 @@ namespace Assets.Scripts
         private float _nb_shoots = 0;
         private float _nb_sucessful_shoots = 0;
 
-        private WeaponLevelEnum _weaponLevelEnum = WeaponLevelEnum.Level1;
+        private WeaponTypeEnum _weaponLevelEnum = WeaponTypeEnum.Level1;
 
         private static GameManager _instance;
 
@@ -71,23 +71,23 @@ namespace Assets.Scripts
         {
             if (_precision_percentage > 99)
             {
-                _weaponLevelEnum = WeaponLevelEnum.Level4;
+                _weaponLevelEnum = WeaponTypeEnum.Level4;
             }
             else if (_precision_percentage > 90)
             {
-                _weaponLevelEnum = WeaponLevelEnum.Level3;
+                _weaponLevelEnum = WeaponTypeEnum.Level3;
             }
             else if (_precision_percentage > 88)
             {
-                _weaponLevelEnum = WeaponLevelEnum.Level2;
+                _weaponLevelEnum = WeaponTypeEnum.Level2;
             }
             else
             {
-                _weaponLevelEnum = WeaponLevelEnum.Level1;
+                _weaponLevelEnum = WeaponTypeEnum.Level1;
             }
         }
 
-        public WeaponLevelEnum GetWeaponLevelEnum()
+        public WeaponTypeEnum GetWeaponLevelEnum()
         {
             return _weaponLevelEnum;
         }

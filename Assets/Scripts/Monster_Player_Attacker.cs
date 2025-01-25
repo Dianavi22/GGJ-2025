@@ -60,7 +60,7 @@ public class MonsterType0_Attacker : MonoBehaviour
     /// Vector2 target = new(0.5, 0.5);
     /// float angle = CustomMaths.GetXAngle(origin, target);
     /// </code>
-    /// results in <c>angle</c> to be ~= 0.785398 radian (= 45°)
+    /// results in <c>angle</c> to be ~= 0.785398 radian (= 45ï¿½)
     /// </example>
     /// </summary>
     /// <param name="origin">The origin point</param>
