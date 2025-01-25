@@ -46,7 +46,7 @@ namespace Assets.Scripts {
         private static GameManager _instance;
 
         private bool _isPaused = false;
-
+        [SerializeField] Animator _bubbleAnimator;    
         public static GameManager Instance {
             get {
                 if (_instance == null) {
@@ -139,9 +139,11 @@ namespace Assets.Scripts {
 
         public void GameOver() {
             isPlaying = false;
-            GameOverCanvas.gameObject.SetActive(true);
-            WinText.SetActive(false);
-            DeadText.SetActive(true);
+            laBulle.GetComponent<Animator>().enabled = true;
+            //_bubbleAnimator.SetBool("GameOver", true);
+            //GameOverCanvas.gameObject.SetActive(true);
+            //WinText.SetActive(false);
+            //DeadText.SetActive(true);
         }
 
         public void Win() {
