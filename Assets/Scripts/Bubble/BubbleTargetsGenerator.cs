@@ -7,6 +7,8 @@ public class BubbleTargetsGenerator : MonoBehaviour {
 
     public List<GameObject> bubbleTargetPoints = new();
 
+    [SerializeField] private bool IsDebug = false;
+
     // Start is called before the first frame update
     void Start() {
         StartCoroutine(ComputeTargets());
@@ -27,16 +29,27 @@ public class BubbleTargetsGenerator : MonoBehaviour {
             for (int i = 0; i < count; i++) {
                 Vector3 currentVerticeVector3 = meshFilter.mesh.vertices[i];
                 if (Mathf.Abs(currentVerticeVector3.y) < 0.01f) {
-                    Debug.Log("'Equator vertice found");
-                    GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    GameObject obj = IsDebug ? GameObject.CreatePrimitive(PrimitiveType.Sphere) : CreateEmptyGameObject();
                     obj.GetComponent<Renderer>().material.color = Color.red;
                     obj.transform.position = transform.position + new Vector3(currentVerticeVector3.x, currentVerticeVector3.y, currentVerticeVector3.z);
                     obj.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
                     bubbleTargetPoints.Add(obj);
                 }
             }
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
         }
+    }
+
+    public GameObject CreateEmptyGameObject() {
+        //spawn object
+        GameObject gameobject = new GameObject("Cool GameObject made from Code");
+        //Add Components
+        gameobject.AddComponent<Rigidbody>();
+        gameobject.AddComponent<MeshFilter>();
+        gameobject.AddComponent<BoxCollider>();
+        gameobject.AddComponent<MeshRenderer>();
+
+        return gameobject;
     }
 
     private void CreateMesh() {

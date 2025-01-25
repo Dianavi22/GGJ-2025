@@ -37,6 +37,10 @@ public class SimpleMonster : MonoBehaviour
         }
     }
 
+    public void TakeDamage() {
+        // TODO
+        Debug.Log("It hits");
+    }
 
     /// <summary>
     /// This method returns the angle (related to the X axis) between two points.
