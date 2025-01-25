@@ -110,8 +110,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 2.5
-  _growthValue: 0.2
-  isPiercing: 1
+  _growthValue: 0.7
+  _isPiercing: 0
   Direction: {x: 0, y: 0}
 --- !u!1 &6122805598301210984
 GameObject:

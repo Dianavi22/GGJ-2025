@@ -1,29 +1,26 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SpawnerManager : MonoBehaviour {
-    [SerializeField]
-    private List<Spwaner> _spawners = new List<Spwaner>();
+    private List<Spawner> _spawners = new();
 
     private float _timeElapsed = 0;
     private float _timeTresholdToCreateMonsters = 1;
 
-    // Start is called before the first frame update
-    void Start() {
-
+    private void Awake() {
+        _spawners = GetComponentsInChildren<Spawner>().ToList();
     }
 
-    // Update is called once per frame
-    void Update() {
+    private void Update() {
         _timeElapsed += Time.deltaTime;
 
         if (_timeElapsed > _timeTresholdToCreateMonsters) {
             _timeElapsed = 0;
             _spawners.ForEach(spwaner => {
-                System.Random random = new System.Random();
-                int rng = random.Next(0, 2);
+                System.Random random = new();
                 // active ones will spawns enemies.
-                spwaner.Spawn(rng == 0 ? MonsterType.PlayerAttacker : MonsterType.BubbleAttacker); 
+                spwaner.Spawn(random.Next(0, 2) == 0 ? MonsterType.PlayerAttacker : MonsterType.BubbleAttacker);
             });
         }
     }
