@@ -1844,6 +1844,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 963194229}
     - target: {fileID: 4465170488436462690, guid: 4d43a54500b6ae04d87556bbb8d54a74, type: 3}
+      propertyPath: initialSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465170488436462690, guid: 4d43a54500b6ae04d87556bbb8d54a74, type: 3}
       propertyPath: _bubblesPart
       value: 
       objectReference: {fileID: 407715862}
