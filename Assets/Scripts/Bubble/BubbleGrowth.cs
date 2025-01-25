@@ -14,16 +14,14 @@ namespace Bubble {
         [SerializeField] private ParticleSystem _bubblesPart;
         [SerializeField] private ParticleSystem _destroyProj;
         [SerializeField] private ParticleSystem _destroySprProj;
+
+        private bool _isShrinked = false;
         private bool _growing = false;
 
         private void Awake() {
             UpdateSize(initialSize - transform.localScale.x);
         }
 
-        private GameManager _gameManager = GameManager.Instance;
-        private void Start() {
-            _gameManager.isPlaying = true;
-        }
 
         private void Update() {
 
@@ -31,16 +29,16 @@ namespace Bubble {
                 return;
             }
 
-            if (transform.localScale.x < 0.2 && _gameManager.isPlaying) {
-                _gameManager.GameOver();
+            if (transform.localScale.x < 0.2) {
+                _isShrinked = true;
             }
 
-            if (transform.localScale.x > 13 && _gameManager.isPlaying) {
-                _gameManager.Win();
+            if (transform.localScale.x > 13) {
+                //_gameManager.Win();
             }
 
 
-            if (_gameManager.isPlaying) {
+            if (GameManager.Instance.isPlaying) {
                 Shrink(_shrinkPerSecond * Time.deltaTime);
             }
         }
@@ -51,6 +49,10 @@ namespace Bubble {
 
         public void Shrink(float offset) {
             UpdateSize(-offset);
+        }
+
+        public bool getIsShrinked() {
+            return _isShrinked;
         }
 
         private void OnTriggerExit(Collider other) {
