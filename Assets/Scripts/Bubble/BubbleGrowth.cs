@@ -15,7 +15,13 @@ namespace Bubble {
        
 
         private bool _growing = false;
+
+        private void Awake() {
+            UpdateSize(_initialSize - transform.localScale.x);
+        }
+
         private GameManager _gameManager = GameManager.Instance;
+
         private void Update() {
 
             if (_growing) {

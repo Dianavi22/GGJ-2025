@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 1149086580725129475}
   - component: {fileID: 4077562812318658525}
   - component: {fileID: 4465170488436462690}
+  - component: {fileID: 5146823349685588881}
   m_Layer: 0
   m_Name: Bubble
   m_TagString: Untagged
@@ -195,3 +196,21 @@ MonoBehaviour:
   _initialSize: 4
   _shrinkPerSecond: 0.05
   _playerHitGrowthDuration: 0.2
+  _sc: {fileID: 0}
+  _bubblesPart: {fileID: 0}
+--- !u!114 &5146823349685588881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8596553909162177302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e95ffdd73935440a934cfa53bc756f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 0}
+  _f: 3
+  _zeta: 0.5
+  _r: 1

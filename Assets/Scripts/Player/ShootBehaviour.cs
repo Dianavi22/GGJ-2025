@@ -65,7 +65,7 @@ namespace Player {
                 _chargingElapsedTime += Time.deltaTime;
                 float k = _chargingElapsedTime / _sliderFillDuration;
                 _slider.value = Mathf.Lerp(0, 1, k);
-            } else if(0 < _slider.value) {
+            } else if (0 < _slider.value) {
                 _shootPart.Play();
                 Shoot(IsPerfectRange());
             }
@@ -96,17 +96,23 @@ namespace Player {
             PlayerProjectile projectile = Instantiate(projectileToSpawn, _shootPosition.position, Quaternion.identity).GetComponent<PlayerProjectile>();
             projectile.Direction = transform.right;
 
-            if(isTimed) {
+            // Example of how to use OnDestroy callback
+            if (5 < _combo) {
+                projectile.OnDestroy = projectile.SplitOnDestroy;
+            }
+
+
+            if (isTimed) {
                 _combo++;
             } else {
                 _combo = 0;
             }
- 
+
             // Resetting values
             if (_shootCoroutine != null) {
                 StopCoroutine(_shootCoroutine);
             }
-            
+
             _shootCoroutine = null;
             _slider.value = 0;
             _cooldownElapsedTime = 0;
