@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6923574434330956811}
   - component: {fileID: 1455733339949146453}
   m_Layer: 0
-  m_Name: PlayerProjectile
+  m_Name: PlayerSpecialProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110,8 +110,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 2.5
-  _growthValue: 0.15
-  isPiercing: 0
+  _growthValue: 0.2
+  isPiercing: 1
   Direction: {x: 0, y: 0}
 --- !u!1 &6122805598301210984
 GameObject:
