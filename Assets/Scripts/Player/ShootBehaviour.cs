@@ -22,6 +22,8 @@ namespace Player {
         [SerializeField] private List<KeyCode> _shootKeys;
         [SerializeField] private bool _longpress = true;
 
+        [SerializeField] private ParticleSystem _shootPart;
+
         private Coroutine _shootCoroutine;
         private float _cooldownElapsedTime, _chargingElapsedTime;
         private bool _isInCooldown = false;
@@ -64,6 +66,7 @@ namespace Player {
                 float k = _chargingElapsedTime / _sliderFillDuration;
                 _slider.value = Mathf.Lerp(0, 1, k);
             } else if (0 < _slider.value) {
+                _shootPart.Play();
                 Shoot(IsPerfectRange());
             }
         }
@@ -83,7 +86,6 @@ namespace Player {
 
                 _chargingElapsedTime += Time.deltaTime;
             }
-
             Shoot(false);
         }
 

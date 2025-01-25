@@ -1,9 +1,11 @@
-﻿using System;
+using System;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
     internal class GameManager
     {
+        public bool isPlaying  = true;
         private int _level = 0;
         private int _score = 0;
 
@@ -85,6 +87,15 @@ namespace Assets.Scripts
             {
                 _weaponLevelEnum = WeaponLevelEnum.Level1;
             }
+        }
+
+        public void GameOver() {
+            isPlaying = false;
+        }
+
+        public void Win() {
+            Debug.Log("Win");
+            isPlaying = false;
         }
 
         public WeaponLevelEnum GetWeaponLevelEnum()
