@@ -7,7 +7,7 @@ namespace Player {
         [SerializeField, Tooltip("Growth value when hitting the bubble (in m)")] private float _growthValue;
 
         // Direction of this projectile. Need to be set when fired.
-        public Vector2 Direction { private get; set; }
+        public Vector2 Direction;
 
         private Rigidbody2D _rigidbody;
         private Plane[] _cameraFrustumPlanes;
