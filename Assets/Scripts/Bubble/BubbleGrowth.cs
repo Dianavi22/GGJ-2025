@@ -26,6 +26,10 @@ namespace Bubble {
                 _gameManager.GameOver();
             }
 
+            if (transform.localScale.x > 13 && _gameManager.isPlaying) {
+                _gameManager.Win();
+            }
+
             Shrink(_shrinkPerSecond * Time.deltaTime);
         }
 

@@ -93,6 +93,11 @@ namespace Assets.Scripts
             isPlaying = false;
         }
 
+        public void Win() {
+            Debug.Log("Win");
+            isPlaying = false;
+        }
+
         public WeaponLevelEnum GetWeaponLevelEnum()
         {
             return _weaponLevelEnum;
