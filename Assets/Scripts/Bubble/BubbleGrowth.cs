@@ -15,7 +15,7 @@ namespace Bubble {
         [SerializeField] private ParticleSystem _destroyProj;
         [SerializeField] private ParticleSystem _destroySprProj;
         private bool _growing = false;
-
+        [SerializeField] private bool _isTest = false;
         private void Awake() {
             UpdateSize(initialSize - transform.localScale.x);
         }
@@ -23,6 +23,7 @@ namespace Bubble {
         private GameManager _gameManager = GameManager.Instance;
         private void Start() {
             _gameManager.isPlaying = true;
+
         }
 
         private void Update() {
@@ -43,6 +44,30 @@ namespace Bubble {
             if (_gameManager.isPlaying) {
                 Shrink(_shrinkPerSecond * Time.deltaTime);
             }
+
+            //if (_isTest) {
+            //    _gameManager.isPlaying = false;
+            //    ScaleTo(this.transform, new  Vector3( this.transform.localScale.x+3, this.transform.localScale.y+3, this.transform.localScale.z + 3), 0.3f);
+            //    _isTest = false;
+            //}
+        }
+
+        public void ScaleTo(Transform target, Vector3 targetScale, float duration) {
+            StartCoroutine(ScaleLerpCoroutine(target, targetScale, duration));
+        }
+
+        private IEnumerator ScaleLerpCoroutine(Transform target, Vector3 targetScale, float duration) {
+            Vector3 initialScale = target.localScale; 
+            float elapsedTime = 0f;
+
+            while (elapsedTime < duration) {
+
+                target.localScale = Vector3.Lerp(initialScale, targetScale, elapsedTime / duration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            target.localScale = targetScale;
         }
 
         public void Grow(float offset) {
