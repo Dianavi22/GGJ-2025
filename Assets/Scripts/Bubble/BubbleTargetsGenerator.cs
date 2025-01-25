@@ -16,7 +16,7 @@ public class BubbleTargetsGenerator : MonoBehaviour {
 
     IEnumerator ComputeTargets() {
         while (true) {
-
+            Debug.Log("ComputeTargets");
             bubbleTargetPoints.ForEach(p => {
                 Destroy(p.gameObject);
             });
@@ -28,10 +28,14 @@ public class BubbleTargetsGenerator : MonoBehaviour {
 
             for (int i = 0; i < count; i++) {
                 Vector3 currentVerticeVector3 = meshFilter.mesh.vertices[i];
-                if (Mathf.Abs(currentVerticeVector3.y) < 0.01f) {
+                if (Mathf.Abs(currentVerticeVector3.z) < 0.01f) {
                     GameObject obj = IsDebug ? GameObject.CreatePrimitive(PrimitiveType.Sphere) : CreateEmptyGameObject();
                     obj.GetComponent<Renderer>().material.color = Color.red;
-                    obj.transform.position = transform.position + new Vector3(currentVerticeVector3.x, currentVerticeVector3.y, currentVerticeVector3.z);
+                    obj.transform.position = transform.position +
+                        new Vector3(transform.localScale.x * currentVerticeVector3.x,
+                                    transform.localScale.y * currentVerticeVector3.y,
+                                    transform.localScale.z * currentVerticeVector3.z);
+
                     obj.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
                     bubbleTargetPoints.Add(obj);
                 }
