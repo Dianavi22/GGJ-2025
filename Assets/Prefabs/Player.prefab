@@ -176,12 +176,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projectilePrefab: {fileID: 1713222604629435961, guid: ca4bbba70267954439a3cf83bb795007, type: 3}
+  _projectileSpecialPrefab: {fileID: 1713222604629435961, guid: 4b41887de842ea745b0a0a3a60800a8d, type: 3}
   _shootPosition: {fileID: 5503845152589475899}
   _cooldown: 0.5
   _slider: {fileID: 0}
   _sliderFillDuration: 0.7
   _perfectShotRange: {x: 0.6, y: 0.8}
   _shootKeys: 2000000032010000
+  _longpress: 1
 --- !u!50 &9023725667469428389
 Rigidbody2D:
   serializedVersion: 4
