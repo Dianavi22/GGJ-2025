@@ -29,6 +29,8 @@ namespace Assets.Scripts {
         [SerializeField] GameObject player;
         [SerializeField] GameObject laBulle;
 
+        [SerializeField] BubbleGrowth _bbg;
+
         // Save InitialePosition
         private Transform _initialeBubbleTransform;
         private float _initialeBubbleSize;
@@ -139,8 +141,6 @@ namespace Assets.Scripts {
 
         public void GameOver() {
             isPlaying = false;
-            laBulle.GetComponent<Animator>().enabled = true;
-            //_bubbleAnimator.SetBool("GameOver", true);
             //GameOverCanvas.gameObject.SetActive(true);
             //WinText.SetActive(false);
             //DeadText.SetActive(true);
