@@ -24,6 +24,10 @@ namespace Assets.Scripts {
         [SerializeField] GameObject GameOver_GO;
         [SerializeField] GameObject Settings;
 
+        [Header("Map Background")]
+        [SerializeField] GameObject MapAndAssets;
+
+
         [Header("End Game Text")]
         [SerializeField] GameObject WinText;
         [SerializeField] GameObject DeadText;
@@ -153,6 +157,7 @@ namespace Assets.Scripts {
             tuto.gameObject.SetActive(isPlaying);
             laBulle.gameObject.SetActive(isPlaying);
             spawnerManager.gameObject.SetActive(isPlaying);
+            MapAndAssets.gameObject.SetActive(isPlaying);
 
             //Deactivate
             MainMenuCanvas.gameObject.SetActive(!isPlaying);
@@ -167,7 +172,6 @@ namespace Assets.Scripts {
         public void GameOverCanvasFunc() {
             GameOverCanvas.gameObject.SetActive(true);
             laBulle.GetComponent<BubbleGrowth>().ResetValue();
-
             WinText.SetActive(false);
             DeadText.SetActive(true);
             Invoke("CallGameOverMenu", 2);
@@ -220,6 +224,7 @@ namespace Assets.Scripts {
             spawnerManager.gameObject.SetActive(isPlaying);
             GameOverCanvas.gameObject.SetActive(isPlaying);
             GameOver_GO.SetActive(isPlaying);
+            MapAndAssets.gameObject.SetActive(isPlaying);
 
             //Reset Bulle Value
             laBulle.GetComponent<BubbleGrowth>().ResetValue();

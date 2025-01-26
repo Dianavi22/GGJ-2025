@@ -59,11 +59,10 @@ namespace Bubble {
             _isShrinked = false;
             ScaleTo(this.transform, new Vector3(this.transform.localScale.x + 4, this.transform.localScale.y + 4, this.transform.localScale.z + 4), 0.3f);
             Invoke("PlayerFall", 1f);
-            isGameOver = false;
-            Invoke("CallGOCanvas", 0.5f);
         }
 
         private void PlayerFall() {
+            _playerRb.isKinematic = false;
             _playerRb.useGravity = true;
             _sc.ShakyCameCustom(0.2f, 0.5f);
 
@@ -105,11 +104,18 @@ namespace Bubble {
             _isShrinked = false;
             _numberPylonesReached = 0;
             UpdateSize(initialSize - transform.localScale.x);
-            transform.localScale = new Vector3(4, 4, 1);
+            //transform.localScale = new Vector3(initialSize, initialSize, 1);
             failSafeSeconds = 2;
+
+            //playerRb
+            _playerRb.gameObject.SetActive(false);
             _playerRb.useGravity = false;
-            transform.position = Vector3.zero;
-            _playerRb.gameObject.transform.position = Vector3.zero;
+            _playerRb.isKinematic = true;
+
+            _playerRb.gameObject.transform.position = new Vector3(0,0,0);
+            //Reset Active player
+            _playerRb.gameObject.SetActive(true);
+
         }
 
         public bool getIsNumberPylonesReached() {
