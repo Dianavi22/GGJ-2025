@@ -175,7 +175,6 @@ namespace Assets.Scripts {
             WinText.SetActive(false);
             DeadText.SetActive(true);
             Invoke("CallGameOverMenu", 2);
-            laBulle.GetComponent<Animator>().enabled = true;
         }
 
         public void Win() {
@@ -221,6 +220,7 @@ namespace Assets.Scripts {
             PauseMenuCanvas.gameObject.SetActive(isPlaying);
             player.gameObject.SetActive(isPlaying);
             laBulle.gameObject.SetActive(isPlaying);
+            //laBulle.gameObject.GetComponentInChildren<MeshRenderer>().is
             spawnerManager.gameObject.SetActive(isPlaying);
             GameOverCanvas.gameObject.SetActive(isPlaying);
             GameOver_GO.SetActive(isPlaying);
