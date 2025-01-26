@@ -1,12 +1,13 @@
 using Bubble;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Assets.Scripts {
-    internal class GameManager : MonoBehaviour{
+    internal class GameManager : MonoBehaviour {
 
         [Header("Public Attributes")]
         public bool isPlaying = false;
@@ -26,10 +27,6 @@ namespace Assets.Scripts {
         [SerializeField] GameObject GameOver_GO;
         [SerializeField] GameObject Settings;
 
-        [Header("Map Background")]
-        [SerializeField] GameObject MapAndAssets;
-
-
         [Header("End Game Text")]
         [SerializeField] GameObject WinText;
         [SerializeField] GameObject DeadText;
@@ -38,6 +35,9 @@ namespace Assets.Scripts {
         [SerializeField] GameObject player;
         [SerializeField] GameObject laBulle;
         [SerializeField] GameObject tuto;
+
+        [SerializeField] ParticleSystem _targetParticles;
+        [SerializeField] ParticleSystem _startpart;
 
         [SerializeField] BubbleGrowth _bbg;
 
@@ -57,14 +57,11 @@ namespace Assets.Scripts {
         private static GameManager _instance;
 
         private bool _isPaused = false;
-        [SerializeField] Animator _bubbleAnimator;    
-        public static GameManager Instance {
-            get {
-                if (_instance == null) {
-                    _instance = new GameManager();
-                }
-                return _instance;
-            }
+        [SerializeField] Animator _bubbleAnimator;
+        public static GameManager Instance => _instance;
+
+        public void Awake() {
+            _instance = this;
         }
 
         public void Start() {
@@ -74,7 +71,7 @@ namespace Assets.Scripts {
 
         public void Update() {
 
-            if(!isPlaying) {
+            if (!isPlaying) {
                 return;
             }
 
@@ -82,18 +79,18 @@ namespace Assets.Scripts {
                 Pause();
             }
 
-            if(laBulle.GetComponent<BubbleGrowth>().GetIsShrinked() && isPlaying) {
+            if (laBulle.GetComponent<BubbleGrowth>().GetIsShrinked() && isPlaying) {
                 isPlaying = false;
                 GameOver();
             }
 
-            if (laBulle.GetComponent<BubbleGrowth>().getIsNumberPylonesReached()) {
+            if (10 <= laBulle.transform.localScale.x) {
                 Win();
             }
 
         }
 
-        public int GetLevel() { 
+        public int GetLevel() {
             return _level;
         }
 
@@ -148,7 +145,23 @@ namespace Assets.Scripts {
             ResetGame();
             Time.timeScale = 1.0f;
             isPlaying = true;
+            StartCoroutine(StartSetUp());
+        }
 
+        private IEnumerator StartSetUp() {
+            
+            MainMenuCanvas.gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.3f);
+            _startpart.Play();
+            yield return new WaitForSeconds(0.5f);
+            _targetParticles.Play();
+            laBulle.GetComponent<BubbleGrowth>().ResetValue();
+           
+            Time.timeScale = 1.0f;
+            yield return new WaitForSeconds(0.2f);
+
+            ResetGame();
+            isPlaying = true;
             //Activate
             UICanvas.gameObject.SetActive(isPlaying);
             ShootingCanvas.gameObject.SetActive(isPlaying);
@@ -156,10 +169,7 @@ namespace Assets.Scripts {
             tuto.gameObject.SetActive(isPlaying);
             laBulle.gameObject.SetActive(isPlaying);
             spawnerManager.gameObject.SetActive(isPlaying);
-            MapAndAssets.gameObject.SetActive(isPlaying);
 
-            //Deactivate
-            MainMenuCanvas.gameObject.SetActive(!isPlaying);
         }
 
         public void GameOver() {
@@ -178,12 +188,15 @@ namespace Assets.Scripts {
 
         public void Win() {
             isPlaying = false;
+            GameOverCanvas.gameObject.SetActive(true);
+            print(GameOverCanvas.gameObject.activeInHierarchy);
             WinText.SetActive(true);
             DeadText.SetActive(false);
             Invoke("CallGameOverMenu", 3);
         }
 
         private void CallGameOverMenu() {
+            _targetParticles.Stop();
             GameOver_GO.SetActive(true);
         }
 
@@ -197,13 +210,13 @@ namespace Assets.Scripts {
         }
 
         public void Pause() {
-                _isPaused = !_isPaused;
-                if (_isPaused) {
-                    Time.timeScale = 0f;
-                    PauseMenuCanvas.gameObject.SetActive(true);
-                } else {
-                    PauseMenuCanvas.gameObject.SetActive(false);
-                    Time.timeScale = 1f;
+            _isPaused = !_isPaused;
+            if (_isPaused) {
+                Time.timeScale = 0f;
+                PauseMenuCanvas.gameObject.SetActive(true);
+            } else {
+                PauseMenuCanvas.gameObject.SetActive(false);
+                Time.timeScale = 1f;
             }
         }
 
@@ -224,7 +237,6 @@ namespace Assets.Scripts {
 
             //Reset SpawnerManager
             spawnerManager.gameObject.SetActive(isPlaying);
-            spawnerManager.ResetSpawnerManager();
 
             // GameOver Canvas
             GameOverCanvas.gameObject.SetActive(isPlaying);

@@ -1,8 +1,9 @@
 using System.Collections;
-using Assets.Scripts;
 using Player;
 using UnityEngine;
 using System.Collections.Generic;
+using Extensions;
+using Manager;
 
 namespace Bubble {
     [RequireComponent(typeof(Rigidbody))]
@@ -19,14 +20,16 @@ namespace Bubble {
         [SerializeField] private Rigidbody _playerRb;
         [SerializeField] private Tuto _tuto;
         public bool isGameOver = false;
-        private bool _isGrowing= false;
+        private bool _isGrowing = false;
         private bool _isShrinked = false;
         private bool _isFree = false;
         [SerializeField] private bool _isTest = false;
 
         [SerializeField] private List<Pylon> pylons = new();
 
-        private int _numberPylonesReached = 0;
+        [SerializeField] private AudioSource _growthSource;
+        [SerializeField] private AudioSource _warningSource;
+
 
         private float failSafeSeconds = 2;
 
@@ -34,7 +37,10 @@ namespace Bubble {
             UpdateSize(initialSize - transform.localScale.x);
         }
 
-        private GameManager _gameManager = GameManager.Instance;
+        private void Start() {
+            AudioManager.Instance.OnSfxVolumeChanged.AddListener(_growthSource.UpdateVolume);
+            AudioManager.Instance.OnSfxVolumeChanged.AddListener(_warningSource.UpdateVolume);
+        }
 
         private void FixedUpdate() {
 
@@ -86,7 +92,7 @@ namespace Bubble {
 
                 transform.localScale = Vector3.Lerp(initialScale, targetScale, elapsedTime / duration);
                 elapsedTime += Time.deltaTime;
-                
+
                 yield return null;
             }
             transform.localScale = targetScale;
@@ -112,10 +118,8 @@ namespace Bubble {
 
 
         public void ResetValue() {
-            Debug.Log("askojhdakjsildjlaskdjioklasdl;kjasdljksa");
             _isShrinked = false;
             _isFree = false;
-            _numberPylonesReached = 0;
             UpdateSize(initialSize - transform.localScale.x);
             //transform.localScale = new Vector3(initialSize, initialSize, 1);
             failSafeSeconds = 2;
@@ -125,23 +129,16 @@ namespace Bubble {
             _playerRb.useGravity = false;
             _playerRb.isKinematic = true;
 
-            _playerRb.gameObject.transform.position = new Vector3(0,0,0);
+            _playerRb.gameObject.transform.position = new Vector3(0, 0, 0);
             //Reset Active player
+            _playerRb.gameObject.SetActive(true);
+
             this.GetComponentInChildren<Renderer>().enabled = true;
-
-            // Stop And StartCoroutine Creation
-            GetComponentInChildren<BubbleTargetsGenerator>().StartCoroutineGeneration();
         }
 
-        public bool getIsNumberPylonesReached() {
-            return _numberPylonesReached == 4;
-        }
+       
 
-        private void OnTriggerEnter(Collider other) {
-            if (pylons.Contains(other.gameObject.GetComponent<Pylon>())) {
-                _numberPylonesReached++;
-            }
-        }
+       
 
         private void OnTriggerExit(Collider other) {
             if (other.TryGetComponent(out PlayerProjectile projectile)) {
@@ -160,13 +157,18 @@ namespace Bubble {
                 }
                 Destroy(other.gameObject);
             }
-
-            if (pylons.Contains(other.gameObject.GetComponent<Pylon>())) {
-                _numberPylonesReached--;
-            }
         }
         private void UpdateSize(float offset) {
             transform.localScale = GetLocalScaleWithOffset(offset);
+
+            bool isSmallEnough = transform.localScale.x < 2;
+
+            if (isSmallEnough && !_warningSource.isPlaying) {
+                _warningSource.Play();
+            } else if (!isSmallEnough && _warningSource.isPlaying) {
+                _warningSource.Stop();
+            }
+
         }
 
         private Vector3 GetLocalScaleWithOffset(float offset) {
@@ -178,6 +180,8 @@ namespace Bubble {
             float elapsedTime = 0;
             Vector3 origin = transform.localScale;
             Vector3 target = GetLocalScaleWithOffset(offset);
+
+            _growthSource.Play();
 
             while (elapsedTime < growthDuration) {
                 float k = elapsedTime / growthDuration;

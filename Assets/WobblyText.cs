@@ -10,7 +10,12 @@ public class WobblyText : MonoBehaviour
 
     public TMP_Text textComponent;
 
+    public bool isAnimationPlaying = true;
+
     void Update() {
+        if (!isAnimationPlaying) {
+            return;
+        }
         textComponent.ForceMeshUpdate();
         var textInfo = textComponent.textInfo;
 
