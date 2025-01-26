@@ -18,50 +18,45 @@ namespace Bubble {
         [SerializeField] private ParticleSystem _goPart;
         [SerializeField] private Rigidbody _playerRb;
         [SerializeField] private Tuto _tuto;
-        private bool _growing = false;
         public bool isGameOver = false;
+        private bool _isGrowing= false;
         private bool _isShrinked = false;
-        private bool _growing = false;
         [SerializeField] private bool _isTest = false;
 
         [SerializeField] private List<Pylon> pylons = new();
 
         private int _numberPylonesReached = 0;
 
+        private float failSafeSeconds = 2;
+
         private void Awake() {
             UpdateSize(initialSize - transform.localScale.x);
         }
 
         private GameManager _gameManager = GameManager.Instance;
-        private void Start() {
-            _gameManager.isPlaying = true;
-
-        }
 
         private void Update() {
 
-            if (_growing) {
+            if (failSafeSeconds > 0) {
+                failSafeSeconds -= Time.deltaTime;
+            }
+
+            if (_isGrowing) {
                 return;
             }
 
-            if (transform.localScale.x < 0.4) {
+            if (transform.localScale.x < 0.4 && failSafeSeconds <= 0) {
                 _isShrinked = true;
             }
 
-            if (_numberPylonesReached >= 4) {
-                _gameManager.Win();
-            }
-
-            if (_gameManager.isPlaying && !_tuto.isInTuto) {
+            if (!_isShrinked && !_tuto.isInTuto) {
                 Shrink(_shrinkPerSecond * Time.deltaTime);
             }
-
-          
         }
 
         public void AnimationDeath() {
-            _gameManager.isPlaying = false;
             _sc.ShakyCameCustom(0.2f, 0.5f);
+            _isShrinked = false;
             ScaleTo(this.transform, new Vector3(this.transform.localScale.x + 4, this.transform.localScale.y + 4, this.transform.localScale.z + 4), 0.3f);
             Invoke("PlayerFall", 1f);
             isGameOver = false;
@@ -72,10 +67,6 @@ namespace Bubble {
             _playerRb.useGravity = true;
             _sc.ShakyCameCustom(0.2f, 0.5f);
 
-        }
-
-        private void CallGOCanvas() {
-            GameManager.Instance.GameOverCanvasFunc();
         }
 
         public void ScaleTo(Transform target, Vector3 targetScale, float duration) {
@@ -110,8 +101,15 @@ namespace Bubble {
             return _isShrinked;
         }
 
-        public void SetIsShrinked(bool value) {
-            _isShrinked = value;
+        public void ResetValue() {
+            _isShrinked = false;
+            _numberPylonesReached = 0;
+            UpdateSize(initialSize - transform.localScale.x);
+            transform.localScale = new Vector3(4, 4, 1);
+            failSafeSeconds = 2;
+            _playerRb.useGravity = false;
+            transform.position = Vector3.zero;
+            _playerRb.gameObject.transform.position = Vector3.zero;
         }
 
         public bool getIsNumberPylonesReached() {
@@ -122,7 +120,6 @@ namespace Bubble {
             if (pylons.Contains(other.gameObject.GetComponent<Pylon>())) {
                 _numberPylonesReached++;
             }
-
         }
 
         private void OnTriggerExit(Collider other) {
@@ -156,7 +153,7 @@ namespace Bubble {
         }
 
         private IEnumerator GrowTo(float offset, float growthDuration) {
-            _growing = true;
+            _isGrowing = true;
             float elapsedTime = 0;
             Vector3 origin = transform.localScale;
             Vector3 target = GetLocalScaleWithOffset(offset);
@@ -171,7 +168,7 @@ namespace Bubble {
             }
 
             transform.localScale = target;
-            _growing = false;
+            _isGrowing = false;
 
         }
     }

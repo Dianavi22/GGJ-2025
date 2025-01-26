@@ -61,23 +61,25 @@ namespace Assets.Scripts {
                 return _instance;
             }
         }
-        public void Awake() {
-
-        }
 
         public void Start() {
             _initialeBubbleTransform = laBulle.transform;
             _initialePlayerTransform = player.transform;
             _initialeBubbleSize = laBulle.GetComponent<BubbleGrowth>().initialSize;
-
         }
 
         public void Update() {
+
+            if(!isPlaying) {
+                return;
+            }
+
             if ((Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape)) && isPlaying) {
                 Pause();
             }
 
-            if(laBulle.GetComponent<BubbleGrowth>().GetIsShrinked()) {
+            if(laBulle.GetComponent<BubbleGrowth>().GetIsShrinked() && isPlaying) {
+                isPlaying = false;
                 GameOver();
             }
 
@@ -87,13 +89,12 @@ namespace Assets.Scripts {
 
         }
 
-        public int GetLevel() {
+        public int GetLevel() { 
             return _level;
         }
 
         public void Score() {
             _score += _score;
-
             // This means that every 10 times that we score, we increase the level.
             _level = _score % 10;
         }
@@ -140,28 +141,36 @@ namespace Assets.Scripts {
         // Game Managing Canvas Display
 
         public void StartGame() {
+            laBulle.GetComponent<BubbleGrowth>().ResetValue();
             ResetGame();
             Time.timeScale = 1.0f;
             isPlaying = true;
+
+            //Activate
             UICanvas.gameObject.SetActive(isPlaying);
             ShootingCanvas.gameObject.SetActive(isPlaying);
-            MainMenuCanvas.gameObject.SetActive(!isPlaying);
             player.gameObject.SetActive(isPlaying);
             tuto.gameObject.SetActive(isPlaying);
             laBulle.gameObject.SetActive(isPlaying);
             spawnerManager.gameObject.SetActive(isPlaying);
+
+            //Deactivate
+            MainMenuCanvas.gameObject.SetActive(!isPlaying);
         }
 
         public void GameOver() {
             isPlaying = false;
             laBulle.GetComponent<BubbleGrowth>().AnimationDeath();
+            Invoke("GameOverCanvasFunc", 2.5f);
         }
 
         public void GameOverCanvasFunc() {
             GameOverCanvas.gameObject.SetActive(true);
+            laBulle.GetComponent<BubbleGrowth>().ResetValue();
+
             WinText.SetActive(false);
             DeadText.SetActive(true);
-            Invoke("CallGameOverMenu", 3);
+            Invoke("CallGameOverMenu", 2);
             laBulle.GetComponent<Animator>().enabled = true;
         }
 
@@ -181,9 +190,8 @@ namespace Assets.Scripts {
         }
 
         public void BackToMainMen() {
-            isPlaying = false;
             ResetGame();
-       
+            MainMenuCanvas.gameObject.SetActive(!isPlaying);
         }
 
         public void Pause() {
@@ -198,25 +206,23 @@ namespace Assets.Scripts {
         }
 
         public void ResetGame() {
-            isPlaying = false;
+            isPlaying = false; // Should check everything needed when is playing or not is playing
             player.transform.position = _initialePlayerTransform.position;
             laBulle.transform.position = _initialeBubbleTransform.position;
-            laBulle.transform.localScale = new Vector3(_initialeBubbleSize, _initialeBubbleSize, _initialeBubbleSize);
             _isPaused = false;
-            MainMenuCanvas.gameObject.SetActive(!isPlaying);
+
+            //Reset All UII and Canvas to False
             UICanvas.gameObject.SetActive(isPlaying);
             ShootingCanvas.gameObject.SetActive(isPlaying);
             PauseMenuCanvas.gameObject.SetActive(isPlaying);
-            MainMenuCanvas.gameObject.SetActive(!isPlaying);
             player.gameObject.SetActive(isPlaying);
             laBulle.gameObject.SetActive(isPlaying);
             spawnerManager.gameObject.SetActive(isPlaying);
+            GameOverCanvas.gameObject.SetActive(isPlaying);
             GameOver_GO.SetActive(isPlaying);
 
-            laBulle.GetComponent<BubbleGrowth>().SetIsShrinked(false);
-            //spawnerManager._spawners.ForEach(spawner => {
-            //    Destroy(spawner);
-            //});
+            //Reset Bulle Value
+            laBulle.GetComponent<BubbleGrowth>().ResetValue();
         }
 
         public void DisplaySetting() {
