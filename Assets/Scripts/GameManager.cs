@@ -1,5 +1,6 @@
 using Bubble;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -25,10 +26,6 @@ namespace Assets.Scripts {
         [Header("Canvas Images")]
         [SerializeField] GameObject GameOver_GO;
         [SerializeField] GameObject Settings;
-
-        [Header("Map Background")]
-        [SerializeField] GameObject MapAndAssets;
-
 
         [Header("End Game Text")]
         [SerializeField] GameObject WinText;

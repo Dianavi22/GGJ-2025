@@ -118,10 +118,8 @@ namespace Bubble {
 
 
         public void ResetValue() {
-            Debug.Log("askojhdakjsildjlaskdjioklasdl;kjasdljksa");
             _isShrinked = false;
             _isFree = false;
-            _numberPylonesReached = 0;
             UpdateSize(initialSize - transform.localScale.x);
             //transform.localScale = new Vector3(initialSize, initialSize, 1);
             failSafeSeconds = 2;
