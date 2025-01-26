@@ -18,7 +18,6 @@ public class Credits : MonoBehaviour
 
     private IEnumerator CreditsBubbles() {
         yield return new WaitForSeconds(2);
-
         for (int i = 0; i < _bubblesCredits.Count; i++) {
             _bubblesCredits[i].SetActive(true);
 
