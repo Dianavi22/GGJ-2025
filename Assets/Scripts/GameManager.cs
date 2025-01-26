@@ -1,5 +1,6 @@
 using Bubble;
 using System;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -36,6 +37,9 @@ namespace Assets.Scripts {
         [SerializeField] GameObject player;
         [SerializeField] GameObject laBulle;
         [SerializeField] GameObject tuto;
+
+        [SerializeField] ParticleSystem _targetParticles;
+        [SerializeField] ParticleSystem _startpart;
 
         [SerializeField] BubbleGrowth _bbg;
 
@@ -87,7 +91,7 @@ namespace Assets.Scripts {
                 GameOver();
             }
 
-            if (laBulle.GetComponent<BubbleGrowth>().getIsNumberPylonesReached()) {
+            if (10 <= laBulle.transform.localScale.x) {
                 Win();
             }
 
@@ -145,11 +149,24 @@ namespace Assets.Scripts {
         // Game Managing Canvas Display
 
         public void StartGame() {
-            laBulle.GetComponent<BubbleGrowth>().ResetValue();
-            ResetGame();
-            Time.timeScale = 1.0f;
-            isPlaying = true;
+            StartCoroutine(StartSetUp());
 
+        }
+
+        private IEnumerator StartSetUp() {
+            
+            MainMenuCanvas.gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.3f);
+            _startpart.Play();
+            yield return new WaitForSeconds(0.5f);
+            _targetParticles.Play();
+            laBulle.GetComponent<BubbleGrowth>().ResetValue();
+           
+            Time.timeScale = 1.0f;
+            yield return new WaitForSeconds(0.2f);
+
+            ResetGame();
+            isPlaying = true;
             //Activate
             UICanvas.gameObject.SetActive(isPlaying);
             ShootingCanvas.gameObject.SetActive(isPlaying);
@@ -159,8 +176,6 @@ namespace Assets.Scripts {
             spawnerManager.gameObject.SetActive(isPlaying);
             MapAndAssets.gameObject.SetActive(isPlaying);
 
-            //Deactivate
-            MainMenuCanvas.gameObject.SetActive(!isPlaying);
         }
 
         public void GameOver() {
@@ -179,12 +194,15 @@ namespace Assets.Scripts {
 
         public void Win() {
             isPlaying = false;
+            GameOverCanvas.gameObject.SetActive(true);
+            print(GameOverCanvas.gameObject.activeInHierarchy);
             WinText.SetActive(true);
             DeadText.SetActive(false);
             Invoke("CallGameOverMenu", 3);
         }
 
         private void CallGameOverMenu() {
+            _targetParticles.Stop();
             GameOver_GO.SetActive(true);
         }
 
