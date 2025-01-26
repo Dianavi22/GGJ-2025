@@ -1,8 +1,9 @@
 using System.Collections;
-using Assets.Scripts;
 using Player;
 using UnityEngine;
 using System.Collections.Generic;
+using Extensions;
+using Manager;
 
 namespace Bubble {
     [RequireComponent(typeof(Rigidbody))]
@@ -19,11 +20,14 @@ namespace Bubble {
         [SerializeField] private Rigidbody _playerRb;
         [SerializeField] private Tuto _tuto;
         public bool isGameOver = false;
-        private bool _isGrowing= false;
+        private bool _isGrowing = false;
         private bool _isShrinked = false;
         [SerializeField] private bool _isTest = false;
 
         [SerializeField] private List<Pylon> pylons = new();
+
+        [SerializeField] private AudioSource _growthSource;
+        [SerializeField] private AudioSource _warningSource;
 
         private int _numberPylonesReached = 0;
 
@@ -33,7 +37,10 @@ namespace Bubble {
             UpdateSize(initialSize - transform.localScale.x);
         }
 
-        private GameManager _gameManager = GameManager.Instance;
+        private void Start() {
+            AudioManager.Instance.OnSfxVolumeChanged.AddListener(_growthSource.UpdateVolume);
+            AudioManager.Instance.OnSfxVolumeChanged.AddListener(_warningSource.UpdateVolume);
+        }
 
         private void FixedUpdate() {
 
@@ -80,7 +87,7 @@ namespace Bubble {
 
                 transform.localScale = Vector3.Lerp(initialScale, targetScale, elapsedTime / duration);
                 elapsedTime += Time.deltaTime;
-                
+
                 yield return null;
             }
             transform.localScale = targetScale;
@@ -112,7 +119,7 @@ namespace Bubble {
             _playerRb.useGravity = false;
             _playerRb.isKinematic = true;
 
-            _playerRb.gameObject.transform.position = new Vector3(0,0,0);
+            _playerRb.gameObject.transform.position = new Vector3(0, 0, 0);
             //Reset Active player
             _playerRb.gameObject.SetActive(true);
 
@@ -153,6 +160,15 @@ namespace Bubble {
         }
         private void UpdateSize(float offset) {
             transform.localScale = GetLocalScaleWithOffset(offset);
+
+            bool isSmallEnough = transform.localScale.x < 2;
+
+            if (isSmallEnough && !_warningSource.isPlaying) {
+                _warningSource.Play();
+            } else if (!isSmallEnough && _warningSource.isPlaying) {
+                _warningSource.Stop();
+            }
+
         }
 
         private Vector3 GetLocalScaleWithOffset(float offset) {
@@ -164,6 +180,8 @@ namespace Bubble {
             float elapsedTime = 0;
             Vector3 origin = transform.localScale;
             Vector3 target = GetLocalScaleWithOffset(offset);
+
+            _growthSource.Play();
 
             while (elapsedTime < growthDuration) {
                 float k = elapsedTime / growthDuration;
