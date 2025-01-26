@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa412fdd75face94bac8140c952d93a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 0.1
+  _speed: 0.25
   _mainSource: {fileID: 7736555094807274207}
   _hitClip: {fileID: 8300000, guid: d045a36d37cfbb74fab94abafb196087, type: 3}
   _spawnClips:
