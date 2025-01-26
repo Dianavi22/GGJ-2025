@@ -34,7 +34,6 @@ public class BubbleTargetsGenerator : MonoBehaviour {
                         new Vector3(transform.localScale.x * currentVerticeVector3.x,
                                     transform.localScale.y * currentVerticeVector3.y,
                                     transform.localScale.z * currentVerticeVector3.z);
-
                     obj.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
                     bubbleTargetPoints.Add(obj);
                 }
