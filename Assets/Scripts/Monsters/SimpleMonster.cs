@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Extensions;
+using Manager;
 using UnityEngine;
 
 public class SimpleMonster : MonoBehaviour {
@@ -25,6 +27,7 @@ public class SimpleMonster : MonoBehaviour {
     // Start is called before the first frame update
     protected virtual void Start() {
         _rigidbody = GetComponent<Rigidbody>();
+        AudioManager.Instance.OnSfxVolumeChanged.AddListener(_mainSource.UpdateVolume);
     }
 
     protected void DoBasicMove() {
