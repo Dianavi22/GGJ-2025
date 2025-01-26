@@ -35,7 +35,7 @@ namespace Bubble {
 
         private GameManager _gameManager = GameManager.Instance;
 
-        private void Update() {
+        private void FixedUpdate() {
 
             if (failSafeSeconds > 0) {
                 failSafeSeconds -= Time.deltaTime;
@@ -57,7 +57,7 @@ namespace Bubble {
         public void AnimationDeath() {
             _sc.ShakyCameCustom(0.2f, 0.5f);
             _isShrinked = false;
-            ScaleTo(this.transform, new Vector3(this.transform.localScale.x + 4, this.transform.localScale.y + 4, this.transform.localScale.z + 4), 0.3f);
+            ScaleTo(new Vector3(this.transform.localScale.x + 4, this.transform.localScale.y + 4, this.transform.localScale.z + 4), 0.3f);
             Invoke("PlayerFall", 1f);
         }
 
@@ -68,22 +68,22 @@ namespace Bubble {
 
         }
 
-        public void ScaleTo(Transform target, Vector3 targetScale, float duration) {
-            StartCoroutine(ScaleLerpCoroutine(target, targetScale, duration));
+        public void ScaleTo(Vector3 targetScale, float duration) {
+            StartCoroutine(ScaleLerpCoroutine(targetScale, duration));
         }
 
-        private IEnumerator ScaleLerpCoroutine(Transform target, Vector3 targetScale, float duration) {
-            Vector3 initialScale = target.localScale;
+        private IEnumerator ScaleLerpCoroutine(Vector3 targetScale, float duration) {
+            Vector3 initialScale = transform.localScale;
             float elapsedTime = 0f;
 
             while (elapsedTime < duration) {
 
-                target.localScale = Vector3.Lerp(initialScale, targetScale, elapsedTime / duration);
+                transform.localScale = Vector3.Lerp(initialScale, targetScale, elapsedTime / duration);
                 elapsedTime += Time.deltaTime;
                 
                 yield return null;
             }
-            target.localScale = targetScale;
+            transform.localScale = targetScale;
             _goPart.Play();
             this.GetComponentInChildren<Renderer>().enabled = false;
         }
@@ -116,6 +116,7 @@ namespace Bubble {
             //Reset Active player
             _playerRb.gameObject.SetActive(true);
 
+            this.GetComponentInChildren<Renderer>().enabled = true;
         }
 
         public bool getIsNumberPylonesReached() {
