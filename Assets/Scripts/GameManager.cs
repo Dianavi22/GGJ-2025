@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Assets.Scripts {
-    internal class GameManager : MonoBehaviour{
+    internal class GameManager : MonoBehaviour {
 
         [Header("Public Attributes")]
         public bool isPlaying = false;
@@ -57,14 +57,11 @@ namespace Assets.Scripts {
         private static GameManager _instance;
 
         private bool _isPaused = false;
-        [SerializeField] Animator _bubbleAnimator;    
-        public static GameManager Instance {
-            get {
-                if (_instance == null) {
-                    _instance = new GameManager();
-                }
-                return _instance;
-            }
+        [SerializeField] Animator _bubbleAnimator;
+        public static GameManager Instance => _instance;
+
+        public void Awake() {
+            _instance = this;
         }
 
         public void Start() {
@@ -74,7 +71,7 @@ namespace Assets.Scripts {
 
         public void Update() {
 
-            if(!isPlaying) {
+            if (!isPlaying) {
                 return;
             }
 
@@ -82,7 +79,7 @@ namespace Assets.Scripts {
                 Pause();
             }
 
-            if(laBulle.GetComponent<BubbleGrowth>().GetIsShrinked() && isPlaying) {
+            if (laBulle.GetComponent<BubbleGrowth>().GetIsShrinked() && isPlaying) {
                 isPlaying = false;
                 GameOver();
             }
@@ -93,7 +90,7 @@ namespace Assets.Scripts {
 
         }
 
-        public int GetLevel() { 
+        public int GetLevel() {
             return _level;
         }
 
@@ -197,13 +194,13 @@ namespace Assets.Scripts {
         }
 
         public void Pause() {
-                _isPaused = !_isPaused;
-                if (_isPaused) {
-                    Time.timeScale = 0f;
-                    PauseMenuCanvas.gameObject.SetActive(true);
-                } else {
-                    PauseMenuCanvas.gameObject.SetActive(false);
-                    Time.timeScale = 1f;
+            _isPaused = !_isPaused;
+            if (_isPaused) {
+                Time.timeScale = 0f;
+                PauseMenuCanvas.gameObject.SetActive(true);
+            } else {
+                PauseMenuCanvas.gameObject.SetActive(false);
+                Time.timeScale = 1f;
             }
         }
 
@@ -224,7 +221,6 @@ namespace Assets.Scripts {
 
             //Reset SpawnerManager
             spawnerManager.gameObject.SetActive(isPlaying);
-            spawnerManager.ResetSpawnerManager();
 
             // GameOver Canvas
             GameOverCanvas.gameObject.SetActive(isPlaying);

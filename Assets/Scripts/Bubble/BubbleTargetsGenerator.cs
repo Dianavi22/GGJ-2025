@@ -10,44 +10,39 @@ public class BubbleTargetsGenerator : MonoBehaviour {
 
     [SerializeField] private bool IsDebug = false;
 
-    private GameManager _gameManager = GameManager.Instance;
+    public void Update() {
 
-    public void StartCoroutineGeneration() {
-        StopAllCoroutines();
-        StartCoroutine(ComputeTargets());
-    }
+        if (!GameManager.Instance.isPlaying) {
+            return;
+        }
 
-    IEnumerator ComputeTargets() {
-        Debug.Log("COMPTUE TARGET");
-        while (true) {
-            if(bubbleTargetPoints.Count() > 0) {
-                bubbleTargetPoints.ForEach(p => {
-                    Destroy(p.gameObject);
-                });
-            }
-            bubbleTargetPoints.Clear();
+        if (bubbleTargetPoints.Count() > 0) {
+            bubbleTargetPoints.ForEach(p => {
+                Destroy(p.gameObject);
+            });
+        }
+        bubbleTargetPoints.Clear();
 
-            if(gameObject.activeInHierarchy) {
-                MeshFilter meshFilter = GetComponentInChildren<MeshFilter>();
+        if (gameObject.activeInHierarchy) {
+            MeshFilter meshFilter = GetComponentInChildren<MeshFilter>();
 
-                int count = meshFilter.mesh.vertices.Count();
+            int count = meshFilter.mesh.vertices.Count();
 
-                for (int i = 0; i < count; i++) {
-                    Vector3 currentVerticeVector3 = meshFilter.mesh.vertices[i];
-                    if (Mathf.Abs(currentVerticeVector3.z) < 0.01f) {
-                        GameObject obj = IsDebug ? GameObject.CreatePrimitive(PrimitiveType.Sphere) : CreateEmptyGameObject();
-                        obj.GetComponent<Renderer>().material.color = Color.red;
-                        obj.transform.position = transform.position +
-                            new Vector3(transform.localScale.x * currentVerticeVector3.x,
-                                        transform.localScale.y * currentVerticeVector3.y,
-                                        transform.localScale.z * currentVerticeVector3.z);
-                        obj.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
-                        bubbleTargetPoints.Add(obj);
-                    }
+            for (int i = 0; i < count; i++) {
+                Vector3 currentVerticeVector3 = meshFilter.mesh.vertices[i];
+                if (Mathf.Abs(currentVerticeVector3.z) < 0.01f) {
+                    GameObject obj = IsDebug ? GameObject.CreatePrimitive(PrimitiveType.Sphere) : CreateEmptyGameObject();
+                    obj.GetComponent<Renderer>().material.color = Color.red;
+                    obj.transform.position = transform.position +
+                        new Vector3(transform.localScale.x * currentVerticeVector3.x,
+                                    transform.localScale.y * currentVerticeVector3.y,
+                                    transform.localScale.z * currentVerticeVector3.z);
+                    obj.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+                    bubbleTargetPoints.Add(obj);
                 }
             }
-            yield return new WaitForSeconds(0.05f);
         }
+
     }
 
     public GameObject CreateEmptyGameObject() {

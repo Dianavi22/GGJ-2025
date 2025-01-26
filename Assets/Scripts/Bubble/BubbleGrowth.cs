@@ -127,10 +127,9 @@ namespace Bubble {
 
             _playerRb.gameObject.transform.position = new Vector3(0,0,0);
             //Reset Active player
-            this.GetComponentInChildren<Renderer>().enabled = true;
+            _playerRb.gameObject.SetActive(true);
 
-            // Stop And StartCoroutine Creation
-            GetComponentInChildren<BubbleTargetsGenerator>().StartCoroutineGeneration();
+            this.GetComponentInChildren<Renderer>().enabled = true;
         }
 
         public bool getIsNumberPylonesReached() {

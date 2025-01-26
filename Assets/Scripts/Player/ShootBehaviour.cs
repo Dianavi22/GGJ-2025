@@ -31,8 +31,8 @@ namespace Player {
         private float _cooldownElapsedTime, _chargingElapsedTime;
         private bool _isInCooldown = false;
         private int _combo = 0;
-
-        [SerializeField] TextMeshProUGUI comboGuiTextGameobject;
+        
+        [SerializeField] GameObject comboGuiTextGameobject;
 
         //Used to toggle to "isPlayingAnimation" when the combo is 5.
         private WobblyText comboTextAnimation;
@@ -42,7 +42,6 @@ namespace Player {
         private void Start() {
             _slider.value = 0;
             comboTextAnimation = comboGuiTextGameobject.GetComponent<WobblyText>();
-
             _shootCallback = _longpress ? PressShot : ClickShoot;
         }
 
@@ -116,8 +115,11 @@ namespace Player {
             }
 
             // Update the text
-            comboGuiTextGameobject.text = string.Concat("Combo ", _combo);
-            comboTextAnimation.isAnimationPlaying = (_combo > 4);
+            comboGuiTextGameobject.GetComponent<TextMeshProUGUI>().text = string.Concat("Combo ", _combo);
+            if (comboTextAnimation != null) {
+                comboTextAnimation.isAnimationPlaying = (_combo > 4);
+            }
+
 
             if (isTimed) {
                 projectile.isTimed = true;

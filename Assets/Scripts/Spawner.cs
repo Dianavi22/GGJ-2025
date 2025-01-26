@@ -1,6 +1,8 @@
 using UnityEngine;
 
 public class Spawner : MonoBehaviour {
+
+    [SerializeField]
     private bool _isActive = false;
 
     [SerializeField]
