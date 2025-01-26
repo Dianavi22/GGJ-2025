@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 /// <summary>
 /// Defines the behaviour of the monster that attacks the bubble.
@@ -45,7 +44,7 @@ public class Monster_Bubble_Attacker : SimpleMonster {
         }
 
         if (_isAttachedToTheBubble &&
-            Vector3.Distance(transform.position, bubbleTargetsGenerator.bubbleTargetPoints[indexInBubble].transform.position) > 1f) {
+            Vector3.Distance(transform.position, bubbleTargetsGenerator.bubbleTargetPoints[indexInBubble].transform.position) > 0.1f) {
             transform.position = bubbleTargetsGenerator.bubbleTargetPoints[indexInBubble].transform.position;
         }
     }
@@ -66,14 +65,13 @@ public class Monster_Bubble_Attacker : SimpleMonster {
             }
             index++;
         });
-        Debug.Log("newTargetPosition : " + newTargetPosition.x + ", " + newTargetPosition.y + ", " + newTargetPosition.y);
 
         _targetPosition = newTargetPosition;
 
         // Only recalculate the orientation if the postion changed in order to avoid flickering.
         if (_timeElapsedBeforeReOrientate > _timeThresholdToReOrientate) {
             _timeElapsedBeforeReOrientate = 0;
-            transform.LookAt(_targetPosition);
+            transform.LookAt(_targetPosition, Vector3.back);
         }
 
         DoBasicMove();

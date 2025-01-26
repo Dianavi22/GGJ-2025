@@ -29,7 +29,7 @@ public class SimpleMonster : MonoBehaviour
             // Move
             float smoothSpeed = (1 / (t + 0.1f) * _speed);
             _rigidbody.MovePosition(_rigidbody.position + smoothSpeed * Time.fixedDeltaTime * transform.forward);
-        } else if (_timeElapsed < 2f) {
+        } else if (_timeElapsed < 1.01f) {
             float reduced_speed = (_speed / 10);
             _rigidbody.MovePosition(_rigidbody.position + reduced_speed * Time.fixedDeltaTime * transform.forward);
         } else {

@@ -18,7 +18,7 @@ public class Spawner : MonoBehaviour {
 
         if (monsterType == MonsterType.BubbleAttacker ? bubbleAttacker : playerAttacker != null) {
             Instantiate(monsterType == MonsterType.BubbleAttacker ? bubbleAttacker : playerAttacker,
-                transform.position, transform.rotation);
+                transform.position, Quaternion.Euler(0,  90, -90));
         }
     }
 
