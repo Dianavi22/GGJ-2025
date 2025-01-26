@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SimpleMonster : MonoBehaviour
@@ -39,7 +37,6 @@ public class SimpleMonster : MonoBehaviour
     }
 
     public void TakeDamage() {
-        // TODO
-        Debug.Log("It hits");
+        Destroy(gameObject);
     }
 }

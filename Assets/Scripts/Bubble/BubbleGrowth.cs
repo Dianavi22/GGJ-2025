@@ -93,7 +93,7 @@ namespace Bubble {
         }
 
         public bool getIsShrinked() {
-            return _isShrinked;
+            return true;
         }
 
         private void OnTriggerExit(Collider other) {

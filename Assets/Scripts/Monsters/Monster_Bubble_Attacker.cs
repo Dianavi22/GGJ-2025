@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -50,6 +49,19 @@ public class Monster_Bubble_Attacker : SimpleMonster {
     }
 
     private void Move() {
+
+        GetClosestPoint();
+
+        // Only recalculate the orientation if the postion changed in order to avoid flickering.
+        if (_timeElapsedBeforeReOrientate > _timeThresholdToReOrientate) {
+            _timeElapsedBeforeReOrientate = 0;
+            transform.LookAt(_targetPosition, Vector3.back);
+        }
+
+        DoBasicMove();
+    }
+
+    private Vector3 GetClosestPoint() {
         float closestDistance = Mathf.Infinity;
         int index = 0;
 
@@ -68,24 +80,41 @@ public class Monster_Bubble_Attacker : SimpleMonster {
 
         _targetPosition = newTargetPosition;
 
+        return _targetPosition;
+    } 
+
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.gameObject.name == "Bubble") {
+            _isAttachedToTheBubble = true;
+            this.animator.Play("Bite");
+        }
+    }
+
+    IEnumerator LeaveTheGround() {
+        float spwanAnimationElapsedTime = 0;
+        float animationDuration = 3;
+        Vector3 scaleBeforeReduction = transform.localScale;
+        transform.localScale = Vector3.zero;
+
+        yield return new WaitForSeconds(1f);
+
+        GetClosestPoint();
+
         // Only recalculate the orientation if the postion changed in order to avoid flickering.
         if (_timeElapsedBeforeReOrientate > _timeThresholdToReOrientate) {
             _timeElapsedBeforeReOrientate = 0;
             transform.LookAt(_targetPosition, Vector3.back);
         }
 
-        DoBasicMove();
-    }
-
-    private void OnTriggerEnter(Collider other) {
-        if (other.gameObject.name == "Bubble") {
-            _isAttachedToTheBubble = true;
-            animator.Play("Bite");
+        while (spwanAnimationElapsedTime < animationDuration - 0.1 ) {
+            Debug.Log("toto: " + spwanAnimationElapsedTime / animationDuration);
+            transform.localScale = spwanAnimationElapsedTime / animationDuration * scaleBeforeReduction;
+            yield return new WaitForSeconds(0.01f);
+            spwanAnimationElapsedTime += Time.deltaTime;
         }
-    }
 
-    IEnumerator LeaveTheGround() {
-        yield return new WaitForSeconds(3.12f);
+        transform.localScale = transform.localScale;
         _isLeavingTheGround = false;
     }
 }
