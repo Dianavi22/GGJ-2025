@@ -1,5 +1,6 @@
 using Bubble;
 using System;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -38,6 +39,7 @@ namespace Assets.Scripts {
         [SerializeField] GameObject tuto;
 
         [SerializeField] ParticleSystem _targetParticles;
+        [SerializeField] ParticleSystem _startpart;
 
         [SerializeField] BubbleGrowth _bbg;
 
@@ -147,12 +149,24 @@ namespace Assets.Scripts {
         // Game Managing Canvas Display
 
         public void StartGame() {
+            StartCoroutine(StartSetUp());
+
+        }
+
+        private IEnumerator StartSetUp() {
+            
+            MainMenuCanvas.gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.3f);
+            _startpart.Play();
+            yield return new WaitForSeconds(0.5f);
             _targetParticles.Play();
             laBulle.GetComponent<BubbleGrowth>().ResetValue();
-            ResetGame();
+           
             Time.timeScale = 1.0f;
-            isPlaying = true;
+            yield return new WaitForSeconds(0.2f);
 
+            ResetGame();
+            isPlaying = true;
             //Activate
             UICanvas.gameObject.SetActive(isPlaying);
             ShootingCanvas.gameObject.SetActive(isPlaying);
@@ -162,8 +176,6 @@ namespace Assets.Scripts {
             spawnerManager.gameObject.SetActive(isPlaying);
             MapAndAssets.gameObject.SetActive(isPlaying);
 
-            //Deactivate
-            MainMenuCanvas.gameObject.SetActive(!isPlaying);
         }
 
         public void GameOver() {
