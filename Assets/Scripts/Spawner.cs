@@ -31,7 +31,7 @@ public class Spawner : MonoBehaviour {
         bubbleParticle.GetComponent<ParticleSystem>().Play();
         yield return new WaitForSeconds(3f);
         bubbleParticle.GetComponent<ParticleSystem>().Stop();
-        Instantiate(monsterType == MonsterType.BubbleAttacker ? bubbleAttacker : playerAttacker, transform.position, Quaternion.Euler(0, 90, -90));
+        Instantiate(bubbleAttacker, transform.position, Quaternion.Euler(0, 90, -90));
     }
 
     private void OnTriggerEnter(Collider other) {
