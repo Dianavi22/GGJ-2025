@@ -16,6 +16,7 @@ namespace Bubble {
         [SerializeField] private ParticleSystem _destroySprProj;
         [SerializeField] private ParticleSystem _goPart;
         [SerializeField] private Rigidbody _playerRb;
+        [SerializeField] private Tuto _tuto;
         private bool _growing = false;
         public bool isGO = false;
         private void Awake() {
@@ -39,12 +40,12 @@ namespace Bubble {
                 isGO = true;
             }
 
-            if (transform.localScale.x > 13 && _gameManager.isPlaying) {
+            if (transform.localScale.x > 13 && _gameManager.isPlaying && !_tuto.isInTuto) {
                 _gameManager.Win();
             }
 
 
-            if (_gameManager.isPlaying) {
+            if (_gameManager.isPlaying && !_tuto.isInTuto) {
                 Shrink(_shrinkPerSecond * Time.deltaTime);
             }
 

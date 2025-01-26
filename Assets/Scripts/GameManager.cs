@@ -28,6 +28,7 @@ namespace Assets.Scripts {
         [Header("Initialize Setup")]
         [SerializeField] GameObject player;
         [SerializeField] GameObject laBulle;
+        [SerializeField] GameObject tuto;
 
         [SerializeField] BubbleGrowth _bbg;
 
@@ -135,6 +136,7 @@ namespace Assets.Scripts {
             MainMenuCanvas.gameObject.SetActive(!isPlaying);
 
             player.gameObject.SetActive(isPlaying);
+            tuto.gameObject.SetActive(isPlaying);
             laBulle.gameObject.SetActive(isPlaying);
             spawnerManager.gameObject.SetActive(isPlaying);
         }
