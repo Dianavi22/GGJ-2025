@@ -215,7 +215,7 @@ namespace Assets.Scripts {
             laBulle.transform.position = _initialeBubbleTransform.position;
             _isPaused = false;
 
-            //Reset All UII and Canvas to False
+            //Reset All UI and Canvas to False
             UICanvas.gameObject.SetActive(isPlaying);
             ShootingCanvas.gameObject.SetActive(isPlaying);
             PauseMenuCanvas.gameObject.SetActive(isPlaying);
