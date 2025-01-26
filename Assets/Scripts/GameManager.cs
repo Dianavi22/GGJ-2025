@@ -19,6 +19,9 @@ namespace Assets.Scripts {
         [SerializeField] Canvas GameOverCanvas;
         [SerializeField] Canvas UICanvas;
         [SerializeField] Canvas ShootingCanvas;
+
+        [Header("Canvas Images")]
+        [SerializeField] GameObject GameOver_GO;
         [SerializeField] GameObject Settings;
 
         [Header("End Game Text")]
@@ -28,6 +31,9 @@ namespace Assets.Scripts {
         [Header("Initialize Setup")]
         [SerializeField] GameObject player;
         [SerializeField] GameObject laBulle;
+        [SerializeField] GameObject tuto;
+
+        [SerializeField] BubbleGrowth _bbg;
 
         // Save InitialePosition
         private Transform _initialeBubbleTransform;
@@ -69,6 +75,9 @@ namespace Assets.Scripts {
         public void Update() {
             if ((Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape)) && isPlaying) {
                 Pause();
+            }
+            if(laBulle.GetComponent<BubbleGrowth>().getIsShrinked()) {
+                GameOver();
             }
         }
 
@@ -126,6 +135,7 @@ namespace Assets.Scripts {
 
         public void StartGame() {
             ResetGame();
+            Time.timeScale = 1.0f;
             isPlaying = true;
             UICanvas.gameObject.SetActive(isPlaying);
             ShootingCanvas.gameObject.SetActive(isPlaying);
@@ -133,24 +143,30 @@ namespace Assets.Scripts {
             MainMenuCanvas.gameObject.SetActive(!isPlaying);
 
             player.gameObject.SetActive(isPlaying);
+            tuto.gameObject.SetActive(isPlaying);
             laBulle.gameObject.SetActive(isPlaying);
             spawnerManager.gameObject.SetActive(isPlaying);
         }
 
         public void GameOver() {
             isPlaying = false;
+            GameOverCanvas.gameObject.SetActive(true);
+            WinText.SetActive(false);
+            DeadText.SetActive(true);
+            Invoke("CallGameOverMenu", 3);
             laBulle.GetComponent<Animator>().enabled = true;
-            //_bubbleAnimator.SetBool("GameOver", true);
-            //GameOverCanvas.gameObject.SetActive(true);
-            //WinText.SetActive(false);
-            //DeadText.SetActive(true);
         }
 
         public void Win() {
             isPlaying = false;
             WinText.SetActive(true);
             DeadText.SetActive(false);
-        }                                                                                                                                                                                                                                                                                                                                                                                     
+            Invoke("CallGameOverMenu", 3);
+        }
+
+        private void CallGameOverMenu() {
+            GameOver_GO.SetActive(true);
+        }
 
         public void QuitGame() {
             Application.Quit();
@@ -158,20 +174,11 @@ namespace Assets.Scripts {
 
         public void BackToMainMen() {
             isPlaying = false;
-            MainMenuCanvas.gameObject.SetActive(true);
-
-            UICanvas.gameObject.SetActive(isPlaying);
-            ShootingCanvas.gameObject.SetActive(isPlaying);
-            MainMenuCanvas.gameObject.SetActive(!isPlaying);
-            player.gameObject.SetActive(isPlaying);
-            laBulle.gameObject.SetActive(isPlaying);
-            spawnerManager.gameObject.SetActive(isPlaying);
-
             ResetGame();
+       
         }
 
         public void Pause() {
-            if ((Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape)) && isPlaying) {
                 _isPaused = !_isPaused;
                 if (_isPaused) {
                     Time.timeScale = 0f;
@@ -179,7 +186,6 @@ namespace Assets.Scripts {
                 } else {
                     PauseMenuCanvas.gameObject.SetActive(false);
                     Time.timeScale = 1f;
-                }
             }
         }
 
@@ -188,6 +194,16 @@ namespace Assets.Scripts {
             laBulle.transform.position = _initialeBubbleTransform.position;
             laBulle.transform.localScale = new Vector3(_initialeBubbleSize, _initialeBubbleSize, _initialeBubbleSize);
             _isPaused = false;
+            MainMenuCanvas.gameObject.SetActive(!isPlaying);
+            UICanvas.gameObject.SetActive(isPlaying);
+            ShootingCanvas.gameObject.SetActive(isPlaying);
+            PauseMenuCanvas.gameObject.SetActive(isPlaying);
+            MainMenuCanvas.gameObject.SetActive(!isPlaying);
+            player.gameObject.SetActive(isPlaying);
+            laBulle.gameObject.SetActive(isPlaying);
+            spawnerManager.gameObject.SetActive(isPlaying);
+            GameOver_GO.SetActive(isPlaying);
+
             //spawnerManager._spawners.ForEach(spawner => {
             //    Destroy(spawner);
             //});
