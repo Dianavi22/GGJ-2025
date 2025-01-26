@@ -24,6 +24,8 @@ namespace Player {
         [Header("Sound Setting")]
         [SerializeField] private AudioSource _shootSource;
         [SerializeField] private AudioSource _chargeSource;
+        [SerializeField] private AudioClip _perfectShotClip;
+        private AudioClip _regularShotClip;
 
         [Header("Keys setting")]
         [SerializeField] private List<KeyCode> _shootKeys;
@@ -38,6 +40,10 @@ namespace Player {
         private int _combo = 0;
 
         private Action _shootCallback;
+
+        private void Awake() {
+            _regularShotClip = _shootSource.clip;
+        }
 
         private void Start() {
             AudioManager.Instance.OnSfxVolumeChanged.AddListener(_shootSource.UpdateVolume);
@@ -109,9 +115,22 @@ namespace Player {
         }
 
         private void Shoot(bool isTimed) {
-            _shootSource.Play();
+            GameObject projectileToSpawn;
+            AudioClip audioClipToPlay;
 
-            GameObject projectileToSpawn = isTimed ? _projectileSpecialPrefab : _projectilePrefab;
+            if (isTimed) {
+                projectileToSpawn = _projectileSpecialPrefab;
+                audioClipToPlay = _perfectShotClip;
+            } else {
+                projectileToSpawn = _projectilePrefab;
+                audioClipToPlay = _regularShotClip;
+            }
+
+            if (_shootSource.clip != audioClipToPlay) {
+                _shootSource.clip = audioClipToPlay;
+            }
+
+            _shootSource.Play();
             _shootAnim.SetBool("isShooting", true);
 
             // Firing
