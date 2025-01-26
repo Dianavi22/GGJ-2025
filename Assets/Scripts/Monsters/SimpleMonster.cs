@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SimpleMonster : MonoBehaviour
@@ -29,7 +27,7 @@ public class SimpleMonster : MonoBehaviour
             // Move
             float smoothSpeed = (1 / (t + 0.1f) * _speed);
             _rigidbody.MovePosition(_rigidbody.position + smoothSpeed * Time.fixedDeltaTime * transform.forward);
-        } else if (_timeElapsed < 2f) {
+        } else if (_timeElapsed < 1.01f) {
             float reduced_speed = (_speed / 10);
             _rigidbody.MovePosition(_rigidbody.position + reduced_speed * Time.fixedDeltaTime * transform.forward);
         } else {
@@ -39,7 +37,6 @@ public class SimpleMonster : MonoBehaviour
     }
 
     public void TakeDamage() {
-        // TODO
-        Debug.Log("It hits");
+        Destroy(gameObject);
     }
 }
