@@ -146,7 +146,6 @@ namespace Assets.Scripts {
 
         public void GameOver() {
             isPlaying = false;
-            Time.timeScale = 0f;
             GameOverCanvas.gameObject.SetActive(true);
             WinText.SetActive(false);
             DeadText.SetActive(true);

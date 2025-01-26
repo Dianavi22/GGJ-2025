@@ -43,7 +43,7 @@ namespace Bubble {
             }
 
 
-            if (GameManager.Instance.isPlaying) {
+            if (_gameManager.isPlaying) {
                 Shrink(_shrinkPerSecond * Time.deltaTime);
             }
 
