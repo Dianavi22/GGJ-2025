@@ -6,6 +6,7 @@ using UnityEngine;
 public class SpawnerManager : MonoBehaviour {
 
     public int spawnAvailable = 2;
+    private int _initialeSpawnerNumber = 2;
     public List<Spawner> _spawners = new();
     public List<Spawner> _currentSpawnList = new(); // Reseted When the list as spawned
 
@@ -16,12 +17,16 @@ public class SpawnerManager : MonoBehaviour {
         _spawners = GetComponentsInChildren<Spawner>().ToList();
     }
 
+    private void Start() {
+        _initialeSpawnerNumber = spawnAvailable;
+    }
+
     private void Update() {
         _timeElapsed += Time.deltaTime;
 
         // We Wait for Threshold of Monster
         if (_timeElapsed > _timeTresholdToCreateMonsters) {
-            for (int i = 0; i < Random.Range(1, spawnAvailable); i++) {
+            for (int i = 0; i < Random.Range(1, spawnAvailable + 1); i++) {
                 _currentSpawnList.Add(_spawners[_spawners.Count() - 1]);
             }; 
 
@@ -44,4 +49,8 @@ public class SpawnerManager : MonoBehaviour {
         spawnAvailable++;
     }
 
+    public void ResetSpawnerManager() {
+        _currentSpawnList.Clear();
+        spawnAvailable = _initialeSpawnerNumber;
+    }
 }

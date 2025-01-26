@@ -43,7 +43,6 @@ namespace Assets.Scripts {
 
         // Save InitialePosition
         private Transform _initialeBubbleTransform;
-        private float _initialeBubbleSize;
         private Transform _initialePlayerTransform;
 
 
@@ -71,7 +70,6 @@ namespace Assets.Scripts {
         public void Start() {
             _initialeBubbleTransform = laBulle.transform;
             _initialePlayerTransform = player.transform;
-            _initialeBubbleSize = laBulle.GetComponent<BubbleGrowth>().initialSize;
         }
 
         public void Update() {
@@ -147,7 +145,6 @@ namespace Assets.Scripts {
         // Game Managing Canvas Display
 
         public void StartGame() {
-            laBulle.GetComponent<BubbleGrowth>().ResetValue();
             ResetGame();
             Time.timeScale = 1.0f;
             isPlaying = true;
@@ -221,12 +218,17 @@ namespace Assets.Scripts {
             ShootingCanvas.gameObject.SetActive(isPlaying);
             PauseMenuCanvas.gameObject.SetActive(isPlaying);
             player.gameObject.SetActive(isPlaying);
+            player.SetActive(isPlaying);
             laBulle.gameObject.SetActive(isPlaying);
             //laBulle.gameObject.GetComponentInChildren<MeshRenderer>().is
+
+            //Reset SpawnerManager
             spawnerManager.gameObject.SetActive(isPlaying);
+            spawnerManager.ResetSpawnerManager();
+
+            // GameOver Canvas
             GameOverCanvas.gameObject.SetActive(isPlaying);
             GameOver_GO.SetActive(isPlaying);
-            MapAndAssets.gameObject.SetActive(isPlaying);
 
             //Reset Bulle Value
             laBulle.GetComponent<BubbleGrowth>().ResetValue();

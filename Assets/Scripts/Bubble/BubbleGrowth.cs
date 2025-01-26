@@ -50,7 +50,7 @@ namespace Bubble {
                 _isShrinked = true;
             }
 
-            if (transform.localScale.x > 12) {
+            if (transform.localScale.x > 10) {
                 _isFree = true;
             }
 
@@ -112,6 +112,7 @@ namespace Bubble {
 
 
         public void ResetValue() {
+            Debug.Log("askojhdakjsildjlaskdjioklasdl;kjasdljksa");
             _isShrinked = false;
             _isFree = false;
             _numberPylonesReached = 0;
@@ -126,9 +127,10 @@ namespace Bubble {
 
             _playerRb.gameObject.transform.position = new Vector3(0,0,0);
             //Reset Active player
-            _playerRb.gameObject.SetActive(true);
-
             this.GetComponentInChildren<Renderer>().enabled = true;
+
+            // Stop And StartCoroutine Creation
+            GetComponentInChildren<BubbleTargetsGenerator>().StartCoroutineGeneration();
         }
 
         public bool getIsNumberPylonesReached() {
