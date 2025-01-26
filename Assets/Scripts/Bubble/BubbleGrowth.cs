@@ -14,10 +14,11 @@ namespace Bubble {
         [SerializeField] private ParticleSystem _bubblesPart;
         [SerializeField] private ParticleSystem _destroyProj;
         [SerializeField] private ParticleSystem _destroySprProj;
-
-        private bool _isShrinked = false;
+        [SerializeField] private ParticleSystem _goPart;
+        [SerializeField] private Rigidbody _playerRb;
+        [SerializeField] private Tuto _tuto;
         private bool _growing = false;
-        [SerializeField] private bool _isTest = false;
+        public bool isGO = false;
         private void Awake() {
             UpdateSize(initialSize - transform.localScale.x);
         }
@@ -34,24 +35,33 @@ namespace Bubble {
                 return;
             }
 
-            if (transform.localScale.x < 0.2) {
-                _isShrinked = true;
+            if (transform.localScale.x < 0.2 && _gameManager.isPlaying) {
+                _gameManager.GameOver();
+                isGO = true;
             }
 
-            if (transform.localScale.x > 13) {
-                //_gameManager.Win();
+            if (transform.localScale.x > 13 && _gameManager.isPlaying && !_tuto.isInTuto) {
+                _gameManager.Win();
             }
 
 
-            if (_gameManager.isPlaying) {
+            if (_gameManager.isPlaying && !_tuto.isInTuto) {
                 Shrink(_shrinkPerSecond * Time.deltaTime);
             }
 
-            //if (_isTest) {
-            //    _gameManager.isPlaying = false;
-            //    ScaleTo(this.transform, new  Vector3( this.transform.localScale.x+3, this.transform.localScale.y+3, this.transform.localScale.z + 3), 0.3f);
-            //    _isTest = false;
-            //}
+            if (isGO) {
+                _gameManager.isPlaying = false;
+                _sc.ShakyCameCustom(0.2f, 0.5f);
+                ScaleTo(this.transform, new Vector3(this.transform.localScale.x + 4, this.transform.localScale.y + 4, this.transform.localScale.z + 4), 0.3f);
+                Invoke("PlayerFall", 1f);
+                isGO = false;
+            }
+        }
+
+        private void PlayerFall() {
+            _playerRb.useGravity = true;
+            _sc.ShakyCameCustom(0.2f, 0.5f);
+
         }
 
         public void ScaleTo(Transform target, Vector3 targetScale, float duration) {
@@ -66,10 +76,12 @@ namespace Bubble {
 
                 target.localScale = Vector3.Lerp(initialScale, targetScale, elapsedTime / duration);
                 elapsedTime += Time.deltaTime;
+                
                 yield return null;
             }
-
             target.localScale = targetScale;
+            _goPart.Play();
+            this.GetComponentInChildren<Renderer>().enabled = false;
         }
 
         public void Grow(float offset) {
