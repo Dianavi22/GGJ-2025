@@ -1,4 +1,6 @@
 using Assets.Scripts;
+using Extensions;
+using Manager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +21,10 @@ namespace Player {
         [SerializeField] private float _sliderFillDuration;
         [SerializeField] private Vector2 _perfectShotRange;
 
+        [Header("Sound Setting")]
+        [SerializeField] private AudioSource _shootSource;
+        [SerializeField] private AudioSource _chargeSource;
+
         [Header("Keys setting")]
         [SerializeField] private List<KeyCode> _shootKeys;
         [SerializeField] private bool _longpress = true;
@@ -34,6 +40,9 @@ namespace Player {
         private Action _shootCallback;
 
         private void Start() {
+            AudioManager.Instance.OnSfxVolumeChanged.AddListener(_shootSource.UpdateVolume);
+            AudioManager.Instance.OnSfxVolumeChanged.AddListener(_chargeSource.UpdateVolume);
+
             _slider.value = 0;
 
             _shootCallback = _longpress ? PressShot : ClickShoot;
@@ -61,6 +70,7 @@ namespace Player {
                 if (_shootCoroutine != null) {
                     Shoot(IsPerfectRange());
                 } else {
+                    _chargeSource.Play();
                     _shootCoroutine = StartCoroutine(FillGradientCoroutine());
                 }
             }
@@ -68,12 +78,15 @@ namespace Player {
 
         private void PressShot() {
             if (_shootKeys.Any(Input.GetKey) || Input.GetMouseButton(0)) {
+                if (_chargingElapsedTime == 0) {
+                    _chargeSource.Play();
+                }
+
                 _chargingElapsedTime += Time.deltaTime;
                 float k = _chargingElapsedTime / _sliderFillDuration;
                 _slider.value = Mathf.Lerp(0, 1, k);
             } else if (0 < _slider.value) {
                 Shoot(IsPerfectRange());
-
             }
         }
 
@@ -96,6 +109,8 @@ namespace Player {
         }
 
         private void Shoot(bool isTimed) {
+            _shootSource.Play();
+
             GameObject projectileToSpawn = isTimed ? _projectileSpecialPrefab : _projectilePrefab;
             _shootAnim.SetBool("isShooting", true);
 
@@ -107,7 +122,6 @@ namespace Player {
             if (5 < _combo) {
                 projectile.OnDestroy = projectile.SplitOnDestroy;
             }
-
 
             if (isTimed) {
                 projectile.isTimed = true;
