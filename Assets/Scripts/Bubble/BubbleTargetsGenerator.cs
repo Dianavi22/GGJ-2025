@@ -50,6 +50,7 @@ public class BubbleTargetsGenerator : MonoBehaviour {
         gameobject.AddComponent<MeshFilter>();
         gameobject.AddComponent<BoxCollider>();
         gameobject.AddComponent<MeshRenderer>();
+        gameobject.AddComponent<BubbleTargetPoint>();
 
         return gameobject;
     }

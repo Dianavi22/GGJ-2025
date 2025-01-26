@@ -1,5 +1,7 @@
 using Bubble;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -228,6 +230,16 @@ namespace Assets.Scripts {
 
             //Reset Bulle Value
             laBulle.GetComponent<BubbleGrowth>().ResetValue();
+
+            // Remove All Nasty Worms
+            List<SimpleMonster> list = new List<SimpleMonster>();
+            list = FindObjectsByType<SimpleMonster>(FindObjectsSortMode.None).ToList();
+            list.ForEach(monster => Destroy(monster.gameObject));
+
+            // Remove All Boules
+            List<BubbleTargetPoint> listSphere = new List<BubbleTargetPoint>();
+            listSphere = FindObjectsByType<BubbleTargetPoint>(FindObjectsSortMode.None).ToList();
+            listSphere.ForEach(targetPoint => Destroy(targetPoint.gameObject));
         }
 
         public void DisplaySetting() {
