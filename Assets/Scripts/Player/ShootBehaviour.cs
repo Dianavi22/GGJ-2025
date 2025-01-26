@@ -42,7 +42,7 @@ namespace Player {
         
         [SerializeField] GameObject comboGuiTextGameobject;
 
-        //Used to toggle to "isPlayingAnimation" when the combo is 5.
+        //Used to toggle to "isPlayingAnimation" when the combo is 3.
         private WobblyText comboTextAnimation;
 
         private Action _shootCallback;
@@ -144,14 +144,14 @@ namespace Player {
             projectile.Direction = transform.right;
 
             // Example of how to use OnDestroy callback
-            if (5 < _combo) {
+            if (3 < _combo) {
                 projectile.OnDestroy = projectile.SplitOnDestroy;
             }
 
             // Update the text
             comboGuiTextGameobject.GetComponent<TextMeshProUGUI>().text = string.Concat("Combo ", _combo);
             if (comboTextAnimation != null) {
-                comboTextAnimation.isAnimationPlaying = (_combo > 4);
+                comboTextAnimation.isAnimationPlaying = (_combo >= 3);
             }
 
 
