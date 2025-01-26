@@ -92,6 +92,10 @@ namespace Bubble {
             UpdateSize(-offset);
         }
 
+        public bool getIsShrinked() {
+            return _isShrinked;
+        }
+
         private void OnTriggerExit(Collider other) {
             if (other.TryGetComponent(out PlayerProjectile projectile)) {
                 StartCoroutine(GrowTo(projectile.GrowthValue, _playerHitGrowthDuration));

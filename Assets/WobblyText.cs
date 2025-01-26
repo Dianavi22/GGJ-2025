@@ -5,6 +5,9 @@ using TMPro;
 
 public class WobblyText : MonoBehaviour
 {
+
+    private float _magnitude = 25f;
+
     public TMP_Text textComponent;
 
     void Update() {
@@ -21,7 +24,7 @@ public class WobblyText : MonoBehaviour
 
             for (int j = 0; j < 4; ++j) {
                 var orig = verts[charInfo.vertexIndex + j];
-                verts[charInfo.vertexIndex + j] = orig + new Vector3(0, Mathf.Sin(Time.time * 2f + orig.x * 0.01f) * 15f, 0);
+                verts[charInfo.vertexIndex + j] = orig + new Vector3(0, Mathf.Sin(Time.time * 2f + orig.x * 0.01f) * _magnitude, 0);
             }
         }
 
