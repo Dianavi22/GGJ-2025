@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,10 +32,16 @@ namespace Player {
         private bool _isInCooldown = false;
         private int _combo = 0;
 
+        [SerializeField] TextMeshProUGUI comboGuiTextGameobject;
+
+        //Used to toggle to "isPlayingAnimation" when the combo is 5.
+        private WobblyText comboTextAnimation;
+
         private Action _shootCallback;
 
         private void Start() {
             _slider.value = 0;
+            comboTextAnimation = comboGuiTextGameobject.GetComponent<WobblyText>();
 
             _shootCallback = _longpress ? PressShot : ClickShoot;
         }
@@ -108,6 +115,9 @@ namespace Player {
                 projectile.OnDestroy = projectile.SplitOnDestroy;
             }
 
+            // Update the text
+            comboGuiTextGameobject.text = string.Concat("Combo ", _combo);
+            comboTextAnimation.isAnimationPlaying = (_combo > 4);
 
             if (isTimed) {
                 projectile.isTimed = true;
