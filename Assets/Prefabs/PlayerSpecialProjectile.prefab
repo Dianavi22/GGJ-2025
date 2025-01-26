@@ -205,7 +205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 4
   _growthValue: 0.7
-  _isPiercing: 0
+  _isPiercing: 1
   _trailPart: {fileID: 1285370794587860769}
   isTimed: 0
   Direction: {x: 0, y: 0}

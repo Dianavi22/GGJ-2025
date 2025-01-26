@@ -38,8 +38,11 @@ namespace Assets.Scripts {
 
         [SerializeField] ParticleSystem _targetParticles;
         [SerializeField] ParticleSystem _startpart;
+        [SerializeField] ParticleSystem _winPart;
 
+        [SerializeField] ShakyCame _sc;
         [SerializeField] BubbleGrowth _bbg;
+        [SerializeField] List<GameObject> _bubbleTitle;
 
         // Save InitialePosition
         private Transform _initialeBubbleTransform;
@@ -89,6 +92,9 @@ namespace Assets.Scripts {
             }
 
         }
+
+      
+
 
         public int GetLevel() {
             return _level;
@@ -188,8 +194,17 @@ namespace Assets.Scripts {
 
         public void Win() {
             isPlaying = false;
+            _targetParticles.Stop();
+            _winPart.Play();
+            StartCoroutine(WinSetUp());
+        }
+
+        private IEnumerator WinSetUp() {
+            yield return new WaitForSeconds(1);
+            _sc.ShakyCameCustom(2, 0.3f);
+
+            yield return new WaitForSeconds(1.1f);
             GameOverCanvas.gameObject.SetActive(true);
-            print(GameOverCanvas.gameObject.activeInHierarchy);
             WinText.SetActive(true);
             DeadText.SetActive(false);
             Invoke("CallGameOverMenu", 3);
