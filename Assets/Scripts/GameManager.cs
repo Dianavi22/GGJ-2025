@@ -37,6 +37,8 @@ namespace Assets.Scripts {
         [SerializeField] GameObject laBulle;
         [SerializeField] GameObject tuto;
 
+        [SerializeField] ParticleSystem _targetParticles;
+
         [SerializeField] BubbleGrowth _bbg;
 
         // Save InitialePosition
@@ -87,7 +89,7 @@ namespace Assets.Scripts {
                 GameOver();
             }
 
-            if (laBulle.GetComponent<BubbleGrowth>().getIsNumberPylonesReached()) {
+            if (10 <= laBulle.transform.localScale.x) {
                 Win();
             }
 
@@ -145,6 +147,7 @@ namespace Assets.Scripts {
         // Game Managing Canvas Display
 
         public void StartGame() {
+            _targetParticles.Play();
             laBulle.GetComponent<BubbleGrowth>().ResetValue();
             ResetGame();
             Time.timeScale = 1.0f;
@@ -179,12 +182,15 @@ namespace Assets.Scripts {
 
         public void Win() {
             isPlaying = false;
+            GameOverCanvas.gameObject.SetActive(true);
+            print(GameOverCanvas.gameObject.activeInHierarchy);
             WinText.SetActive(true);
             DeadText.SetActive(false);
             Invoke("CallGameOverMenu", 3);
         }
 
         private void CallGameOverMenu() {
+            _targetParticles.Stop();
             GameOver_GO.SetActive(true);
         }
 
