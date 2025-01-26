@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72585d0344b2da34f95be65fe4649615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bubbleAttacker: {fileID: 3532151527082148257, guid: cbe41513c3323a143b6662a07b170945, type: 3}
+  bubbleAttacker: {fileID: 1573206285209757087, guid: 6810b7707b08fff4eade9044b4d93b37, type: 3}
   playerAttacker: {fileID: 8270083274969550233, guid: 10c7ce8aa56c2ff4e81e7dbf83f24845, type: 3}
   _activateSpawnerLayerMask:
     serializedVersion: 2
