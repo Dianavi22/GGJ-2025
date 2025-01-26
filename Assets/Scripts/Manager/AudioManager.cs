@@ -17,6 +17,7 @@ namespace Manager {
         [SerializeField] private Slider _sfxSlider;
 
         [SerializeField] private AudioSource _uiButtonClick;
+        [SerializeField] private AudioSource _mainLoop;
 
         private AudioSource _musicPlayer;
 
@@ -29,6 +30,7 @@ namespace Manager {
             _instance = this;
 
             OnSfxVolumeChanged.AddListener(_uiButtonClick.UpdateVolume);
+            Invoke(nameof(ChangeToMainLoop), _musicPlayer.clip.length - .75f);
         }
 
         private void Start() {
@@ -47,12 +49,15 @@ namespace Manager {
         public void SetMusicVolume(float value) {
             _musicVolume = Mathf.Clamp01(value);
             _musicPlayer.volume = _musicVolume;
+            _mainLoop.volume = _musicVolume;
         }
 
         public void OnButtonClick() {
             _uiButtonClick.Play();
         }
 
-        //TODO: Add music play & handling
+        private void ChangeToMainLoop() {
+            _mainLoop.Play();
+        }
     }
 }
