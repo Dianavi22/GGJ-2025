@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialSize: 4
-  _shrinkPerSecond: 0.5
+  _shrinkPerSecond: 0.3
   _playerHitGrowthDuration: 0.2
   _sc: {fileID: 0}
   _bubblesPart: {fileID: 0}

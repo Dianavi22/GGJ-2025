@@ -18,7 +18,10 @@ public class SpawnerManager : MonoBehaviour {
         if (_elapsedTime > _timeTresholdToCreateMonsters) {
             _elapsedTime = 0;
             IEnumerable<Spawner> activatedSpawners = _spawners.Where(spawner => spawner.IsActive);
-            activatedSpawners.ElementAt(Random.Range(0, activatedSpawners.Count())).Spawn(MonsterType.BubbleAttacker);
+
+            if (0 < activatedSpawners.Count()) {
+                activatedSpawners.ElementAt(Random.Range(0, activatedSpawners.Count())).Spawn(MonsterType.BubbleAttacker);
+            }
         }
     }
 }
