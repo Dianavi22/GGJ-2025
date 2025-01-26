@@ -18,7 +18,8 @@ namespace Bubble {
         [SerializeField] private Rigidbody _playerRb;
         [SerializeField] private Tuto _tuto;
         private bool _growing = false;
-        public bool isGO = false;
+        public bool isGameOver = false;
+        private bool _isShrinked = false;
         private void Awake() {
             UpdateSize(initialSize - transform.localScale.x);
         }
@@ -35,33 +36,39 @@ namespace Bubble {
                 return;
             }
 
-            if (transform.localScale.x < 0.2 && _gameManager.isPlaying) {
-                _gameManager.GameOver();
-                isGO = true;
-            }
-
+      
             if (transform.localScale.x > 13 && _gameManager.isPlaying && !_tuto.isInTuto) {
                 _gameManager.Win();
             }
 
+            if (transform.localScale.x < 0.4f ) {
+                _isShrinked = true;
+            }
 
             if (_gameManager.isPlaying && !_tuto.isInTuto) {
                 Shrink(_shrinkPerSecond * Time.deltaTime);
             }
 
-            if (isGO) {
-                _gameManager.isPlaying = false;
-                _sc.ShakyCameCustom(0.2f, 0.5f);
-                ScaleTo(this.transform, new Vector3(this.transform.localScale.x + 4, this.transform.localScale.y + 4, this.transform.localScale.z + 4), 0.3f);
-                Invoke("PlayerFall", 1f);
-                isGO = false;
-            }
+          
+        }
+
+        public void AnimationDeath() {
+            _gameManager.isPlaying = false;
+            _sc.ShakyCameCustom(0.2f, 0.5f);
+            ScaleTo(this.transform, new Vector3(this.transform.localScale.x + 4, this.transform.localScale.y + 4, this.transform.localScale.z + 4), 0.3f);
+            Invoke("PlayerFall", 1f);
+            isGameOver = false;
+            Invoke("CallGOCanvas", 0.5f);
         }
 
         private void PlayerFall() {
             _playerRb.useGravity = true;
             _sc.ShakyCameCustom(0.2f, 0.5f);
 
+        }
+
+        private void CallGOCanvas() {
+            GameManager.Instance.GameOverCanvasFunc();
         }
 
         public void ScaleTo(Transform target, Vector3 targetScale, float duration) {

@@ -150,6 +150,10 @@ namespace Assets.Scripts {
 
         public void GameOver() {
             isPlaying = false;
+            laBulle.GetComponent<BubbleGrowth>().AnimationDeath();
+        }
+
+        public void GameOverCanvasFunc() {
             GameOverCanvas.gameObject.SetActive(true);
             WinText.SetActive(false);
             DeadText.SetActive(true);

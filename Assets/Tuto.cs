@@ -27,7 +27,6 @@ public class Tuto : MonoBehaviour
             _player.enabled = true;
             _tuto.text = "";
 
-
         }
     }
 

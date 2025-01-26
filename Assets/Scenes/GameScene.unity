@@ -10199,7 +10199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 340810489243576919, guid: 67218da8b51b86846af104c9ae9986a5, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 402724662050483399, guid: 67218da8b51b86846af104c9ae9986a5, type: 3}
       propertyPath: m_AnchorMax.y
@@ -16752,6 +16752,11 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 980891777046808483, guid: 345a0259190107d4484d9d2ac21ac005, type: 3}
   m_PrefabInstance: {fileID: 8253429025888578889}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1448028359 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2168554147821461741, guid: 345a0259190107d4484d9d2ac21ac005, type: 3}
+  m_PrefabInstance: {fileID: 8253429025888578889}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1526125710
 GameObject:
   m_ObjectHideFlags: 0
@@ -21803,7 +21808,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6301261397787453821, guid: c2ba7953a34a5554b9a24dd38455c9e8, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 339522830}
+      addedObject: {fileID: 1448028359}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 968183197462514340, guid: c2ba7953a34a5554b9a24dd38455c9e8, type: 3}
       insertIndex: -1
@@ -21864,7 +21869,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11775779363655185, guid: 7882c5c64f9712341b3c17eae3e35b10, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 167309136819712729, guid: 7882c5c64f9712341b3c17eae3e35b10, type: 3}
       propertyPath: m_Name
