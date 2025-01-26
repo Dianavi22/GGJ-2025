@@ -172,7 +172,6 @@ namespace Assets.Scripts {
             tuto.gameObject.SetActive(isPlaying);
             laBulle.gameObject.SetActive(isPlaying);
             spawnerManager.gameObject.SetActive(isPlaying);
-            MapAndAssets.gameObject.SetActive(isPlaying);
 
         }
 
