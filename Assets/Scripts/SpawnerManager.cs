@@ -15,6 +15,7 @@ public class SpawnerManager : MonoBehaviour {
     private void Awake() {
         _spawners = GetComponentsInChildren<Spawner>().ToList();
     }
+
     private void Update() {
         _timeElapsed += Time.deltaTime;
 
