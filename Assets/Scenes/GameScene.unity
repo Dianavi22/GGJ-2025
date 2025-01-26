@@ -16851,6 +16851,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 955623847538762183, guid: 08f892a93bd8db54cb6d357a2642abe7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2688313584957836405, guid: 08f892a93bd8db54cb6d357a2642abe7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
@@ -17086,6 +17090,14 @@ PrefabInstance:
     - target: {fileID: 6113910247334895017, guid: 08f892a93bd8db54cb6d357a2642abe7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6113910247334895018, guid: 08f892a93bd8db54cb6d357a2642abe7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -355
+      objectReference: {fileID: 0}
+    - target: {fileID: 6477096237716044277, guid: 08f892a93bd8db54cb6d357a2642abe7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -714
       objectReference: {fileID: 0}
     - target: {fileID: 6879252380308068097, guid: 08f892a93bd8db54cb6d357a2642abe7, type: 3}
       propertyPath: m_Name
