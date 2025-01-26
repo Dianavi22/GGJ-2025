@@ -70,6 +70,8 @@ namespace Assets.Scripts {
         public void Start() {
             _initialeBubbleTransform = laBulle.transform;
             _initialePlayerTransform = player.transform;
+
+            StartCoroutine(Title());
         }
 
         public void Update() {
@@ -183,6 +185,18 @@ namespace Assets.Scripts {
             laBulle.GetComponent<BubbleGrowth>().AnimationDeath();
             Invoke("GameOverCanvasFunc", 2.5f);
         }
+
+        private IEnumerator Title() {
+            yield return new WaitForSeconds(2);
+            for (int i = 0; i < _bubbleTitle.Count; i++) {
+                _bubbleTitle[i].SetActive(true);
+
+                yield return new WaitForSeconds(1);
+            }
+            yield return new WaitForSeconds(5);
+            MainMenuCanvas.gameObject.SetActive(true);
+        }
+
 
         public void GameOverCanvasFunc() {
             GameOverCanvas.gameObject.SetActive(true);
