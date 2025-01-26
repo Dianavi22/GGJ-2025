@@ -108,7 +108,6 @@ public class Monster_Bubble_Attacker : SimpleMonster {
         }
 
         while (spwanAnimationElapsedTime < animationDuration - 0.1 ) {
-            Debug.Log("toto: " + spwanAnimationElapsedTime / animationDuration);
             transform.localScale = spwanAnimationElapsedTime / animationDuration * scaleBeforeReduction;
             yield return new WaitForSeconds(0.01f);
             spwanAnimationElapsedTime += Time.deltaTime;
