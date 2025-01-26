@@ -20,15 +20,17 @@ public class Monster_Bubble_Attacker : SimpleMonster {
     private readonly float _timeThresholdToReOrientate = 1;
 
     // Start is called before the first frame update
-    void Start() {
+    protected override void Start() {
+        base.Start();
+
         _bubble = GameObject.Find("Bubble");
         bubbleTargetsGenerator = _bubble.GetComponent<BubbleTargetsGenerator>();
         animator = GetComponent<Animator>();
 
-        StartCoroutine("LeaveTheGround");
+        StartCoroutine(LeaveTheGround());
     }
 
-    void FixedUpdate() {
+    private void FixedUpdate() {
 
         _timeElapsedBeforeReOrientate += Time.deltaTime;
 
@@ -81,18 +83,21 @@ public class Monster_Bubble_Attacker : SimpleMonster {
         _targetPosition = newTargetPosition;
 
         return _targetPosition;
-    } 
+    }
 
 
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.name == "Bubble") {
             _isAttachedToTheBubble = true;
-            this.animator.Play("Bite");
+            animator.Play("Bite");
+
+            _mainSource.clip = _inBubbleClip;
+            _mainSource.Play();
         }
     }
 
-    IEnumerator LeaveTheGround() {
-        float spwanAnimationElapsedTime = 0;
+    private IEnumerator LeaveTheGround() {
+        float spawnAnimationElapsedTime = 0;
         float animationDuration = 3;
         Vector3 scaleBeforeReduction = transform.localScale;
         transform.localScale = Vector3.zero;
@@ -107,10 +112,10 @@ public class Monster_Bubble_Attacker : SimpleMonster {
             transform.LookAt(_targetPosition, Vector3.back);
         }
 
-        while (spwanAnimationElapsedTime < animationDuration - 0.1 ) {
-            transform.localScale = spwanAnimationElapsedTime / animationDuration * scaleBeforeReduction;
+        while (spawnAnimationElapsedTime < animationDuration - 0.1) {
+            transform.localScale = spawnAnimationElapsedTime / animationDuration * scaleBeforeReduction;
             yield return new WaitForSeconds(0.01f);
-            spwanAnimationElapsedTime += Time.deltaTime;
+            spawnAnimationElapsedTime += Time.deltaTime;
         }
 
         transform.localScale = transform.localScale;

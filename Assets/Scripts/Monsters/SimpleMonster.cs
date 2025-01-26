@@ -1,22 +1,34 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class SimpleMonster : MonoBehaviour
-{
-    [SerializeField]
-    protected float _speed;
+public class SimpleMonster : MonoBehaviour {
+    [SerializeField] protected float _speed;
+
+    [Header("Audio Config")]
+    [SerializeField] protected AudioSource _mainSource;
+    [SerializeField] protected AudioClip _hitClip;
+    [SerializeField] protected List<AudioClip> _spawnClips;
+
+    protected AudioClip _inBubbleClip;
+
     private float _timeElapsed = 0;
 
     protected Rigidbody _rigidbody;
 
+    protected virtual void Awake() {
+        _inBubbleClip = _mainSource.clip;
+
+        _mainSource.clip = _spawnClips[Random.Range(0, _spawnClips.Count)];
+        _mainSource.Play();
+    }
+
     // Start is called before the first frame update
-    void Start()
-    {
+    protected virtual void Start() {
         _rigidbody = GetComponent<Rigidbody>();
     }
 
     protected void DoBasicMove() {
-
-        if(_rigidbody == null) {
+        if (_rigidbody == null) {
             _rigidbody = GetComponent<Rigidbody>();
         }
 
@@ -37,6 +49,9 @@ public class SimpleMonster : MonoBehaviour
     }
 
     public void TakeDamage() {
+        _mainSource.clip = _hitClip;
+        _mainSource.Play();
+
         Destroy(gameObject);
     }
 }
