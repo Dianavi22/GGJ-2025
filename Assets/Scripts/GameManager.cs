@@ -174,7 +174,6 @@ namespace Assets.Scripts {
             tuto.gameObject.SetActive(isPlaying);
             laBulle.gameObject.SetActive(isPlaying);
             spawnerManager.gameObject.SetActive(isPlaying);
-            MapAndAssets.gameObject.SetActive(isPlaying);
 
         }
 
@@ -242,7 +241,6 @@ namespace Assets.Scripts {
             spawnerManager.gameObject.SetActive(isPlaying);
             GameOverCanvas.gameObject.SetActive(isPlaying);
             GameOver_GO.SetActive(isPlaying);
-            MapAndAssets.gameObject.SetActive(isPlaying);
 
             //Reset Bulle Value
             laBulle.GetComponent<BubbleGrowth>().ResetValue();

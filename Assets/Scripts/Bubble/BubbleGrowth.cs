@@ -29,7 +29,6 @@ namespace Bubble {
         [SerializeField] private AudioSource _growthSource;
         [SerializeField] private AudioSource _warningSource;
 
-        private int _numberPylonesReached = 0;
 
         private float failSafeSeconds = 2;
 
@@ -109,7 +108,6 @@ namespace Bubble {
 
         public void ResetValue() {
             _isShrinked = false;
-            _numberPylonesReached = 0;
             UpdateSize(initialSize - transform.localScale.x);
             //transform.localScale = new Vector3(initialSize, initialSize, 1);
             failSafeSeconds = 2;
@@ -126,15 +124,9 @@ namespace Bubble {
             this.GetComponentInChildren<Renderer>().enabled = true;
         }
 
-        public bool getIsNumberPylonesReached() {
-            return _numberPylonesReached == 4;
-        }
+       
 
-        private void OnTriggerEnter(Collider other) {
-            if (pylons.Contains(other.gameObject.GetComponent<Pylon>())) {
-                _numberPylonesReached++;
-            }
-        }
+       
 
         private void OnTriggerExit(Collider other) {
             if (other.TryGetComponent(out PlayerProjectile projectile)) {
@@ -152,10 +144,6 @@ namespace Bubble {
                     _destroyProj.Play();
                 }
                 Destroy(other.gameObject);
-            }
-
-            if (pylons.Contains(other.gameObject.GetComponent<Pylon>())) {
-                _numberPylonesReached--;
             }
         }
         private void UpdateSize(float offset) {
