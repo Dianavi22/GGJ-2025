@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour {
@@ -11,6 +12,9 @@ public class Spawner : MonoBehaviour {
     [SerializeField]
     public GameObject playerAttacker;
 
+    [SerializeField]
+    public GameObject bubbleParticle;
+
     [SerializeField] private LayerMask _activateSpawnerLayerMask;
 
     public void Spawn(MonsterType monsterType) {
@@ -22,6 +26,14 @@ public class Spawner : MonoBehaviour {
             Instantiate(monsterType == MonsterType.BubbleAttacker ? bubbleAttacker : playerAttacker,
                 transform.position, Quaternion.Euler(0,  90, -90));
         }
+
+        StartCoroutine(CreateSpawnAnimation());
+    }
+
+    public IEnumerator CreateSpawnAnimation() {
+        bubbleParticle.GetComponent<ParticleSystem>().Play();
+        yield return new WaitForSeconds(3f);
+        bubbleParticle.GetComponent<ParticleSystem>().Stop();
     }
 
     private void OnTriggerEnter(Collider other) {

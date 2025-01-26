@@ -10,6 +10,7 @@ public class SimpleMonster : MonoBehaviour {
     [SerializeField] protected AudioSource _mainSource;
     [SerializeField] protected AudioClip _hitClip;
     [SerializeField] protected List<AudioClip> _spawnClips;
+    [SerializeField] protected ParticleSystem _deathParticleSystem;
 
     protected AudioClip _inBubbleClip;
 
@@ -55,6 +56,8 @@ public class SimpleMonster : MonoBehaviour {
         _mainSource.clip = _hitClip;
         _mainSource.Play();
 
-        Destroy(gameObject);
+        _deathParticleSystem.Play();
+
+        Destroy(gameObject, 1);
     }
 }

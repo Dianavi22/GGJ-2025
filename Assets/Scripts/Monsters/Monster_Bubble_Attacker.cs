@@ -10,6 +10,9 @@ public class Monster_Bubble_Attacker : SimpleMonster {
     private BubbleTargetsGenerator bubbleTargetsGenerator;
     private Animator animator;
 
+    [SerializeField]
+    private GameObject _bubbleHitParticle;
+
     private bool _isAttachedToTheBubble = false;
     private int indexInBubble = 0;
 
@@ -90,9 +93,9 @@ public class Monster_Bubble_Attacker : SimpleMonster {
         if (other.gameObject.name == "Bubble") {
             _isAttachedToTheBubble = true;
             animator.Play("Bite");
-
             _mainSource.clip = _inBubbleClip;
             _mainSource.Play();
+            _bubbleHitParticle.GetComponent<ParticleSystem>().Play();
         }
     }
 
