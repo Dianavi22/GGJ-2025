@@ -2,6 +2,7 @@ using System.Collections;
 using Assets.Scripts;
 using Player;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Bubble {
     [RequireComponent(typeof(Rigidbody))]
@@ -20,6 +21,13 @@ namespace Bubble {
         private bool _growing = false;
         public bool isGameOver = false;
         private bool _isShrinked = false;
+        private bool _growing = false;
+        [SerializeField] private bool _isTest = false;
+
+        [SerializeField] private List<Pylon> pylons = new();
+
+        private int _numberPylonesReached = 0;
+
         private void Awake() {
             UpdateSize(initialSize - transform.localScale.x);
         }
@@ -36,13 +44,12 @@ namespace Bubble {
                 return;
             }
 
-      
-            if (transform.localScale.x > 13 && _gameManager.isPlaying && !_tuto.isInTuto) {
-                _gameManager.Win();
+            if (transform.localScale.x < 0.4) {
+                _isShrinked = true;
             }
 
-            if (transform.localScale.x < 0.4f ) {
-                _isShrinked = true;
+            if (_numberPylonesReached >= 4) {
+                _gameManager.Win();
             }
 
             if (_gameManager.isPlaying && !_tuto.isInTuto) {
@@ -76,7 +83,7 @@ namespace Bubble {
         }
 
         private IEnumerator ScaleLerpCoroutine(Transform target, Vector3 targetScale, float duration) {
-            Vector3 initialScale = target.localScale; 
+            Vector3 initialScale = target.localScale;
             float elapsedTime = 0f;
 
             while (elapsedTime < duration) {
@@ -99,8 +106,23 @@ namespace Bubble {
             UpdateSize(-offset);
         }
 
-        public bool getIsShrinked() {
+        public bool GetIsShrinked() {
             return _isShrinked;
+        }
+
+        public void SetIsShrinked(bool value) {
+            _isShrinked = value;
+        }
+
+        public bool getIsNumberPylonesReached() {
+            return _numberPylonesReached == 4;
+        }
+
+        private void OnTriggerEnter(Collider other) {
+            if (pylons.Contains(other.gameObject.GetComponent<Pylon>())) {
+                _numberPylonesReached++;
+            }
+
         }
 
         private void OnTriggerExit(Collider other) {
@@ -119,6 +141,10 @@ namespace Bubble {
                     _destroyProj.Play();
                 }
                 Destroy(other.gameObject);
+            }
+
+            if (pylons.Contains(other.gameObject.GetComponent<Pylon>())) {
+                _numberPylonesReached--;
             }
         }
         private void UpdateSize(float offset) {
@@ -146,6 +172,7 @@ namespace Bubble {
 
             transform.localScale = target;
             _growing = false;
+
         }
     }
 }

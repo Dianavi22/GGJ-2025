@@ -76,9 +76,15 @@ namespace Assets.Scripts {
             if ((Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape)) && isPlaying) {
                 Pause();
             }
-            if(laBulle.GetComponent<BubbleGrowth>().getIsShrinked()) {
+
+            if(laBulle.GetComponent<BubbleGrowth>().GetIsShrinked()) {
                 GameOver();
             }
+
+            if (laBulle.GetComponent<BubbleGrowth>().getIsNumberPylonesReached()) {
+                Win();
+            }
+
         }
 
         public int GetLevel() {
@@ -139,9 +145,7 @@ namespace Assets.Scripts {
             isPlaying = true;
             UICanvas.gameObject.SetActive(isPlaying);
             ShootingCanvas.gameObject.SetActive(isPlaying);
-
             MainMenuCanvas.gameObject.SetActive(!isPlaying);
-
             player.gameObject.SetActive(isPlaying);
             tuto.gameObject.SetActive(isPlaying);
             laBulle.gameObject.SetActive(isPlaying);
@@ -194,6 +198,7 @@ namespace Assets.Scripts {
         }
 
         public void ResetGame() {
+            isPlaying = false;
             player.transform.position = _initialePlayerTransform.position;
             laBulle.transform.position = _initialeBubbleTransform.position;
             laBulle.transform.localScale = new Vector3(_initialeBubbleSize, _initialeBubbleSize, _initialeBubbleSize);
@@ -208,6 +213,7 @@ namespace Assets.Scripts {
             spawnerManager.gameObject.SetActive(isPlaying);
             GameOver_GO.SetActive(isPlaying);
 
+            laBulle.GetComponent<BubbleGrowth>().SetIsShrinked(false);
             //spawnerManager._spawners.ForEach(spawner => {
             //    Destroy(spawner);
             //});
