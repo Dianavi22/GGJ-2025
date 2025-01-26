@@ -21,6 +21,7 @@ namespace Bubble {
         public bool isGameOver = false;
         private bool _isGrowing= false;
         private bool _isShrinked = false;
+        private bool _isFree = false;
         [SerializeField] private bool _isTest = false;
 
         [SerializeField] private List<Pylon> pylons = new();
@@ -48,6 +49,11 @@ namespace Bubble {
             if (transform.localScale.x < 0.4 && failSafeSeconds <= 0) {
                 _isShrinked = true;
             }
+
+            if (transform.localScale.x > 10) {
+                _isFree = true;
+            }
+
 
             if (!_isShrinked && !_tuto.isInTuto) {
                 Shrink(_shrinkPerSecond * Time.deltaTime);
@@ -99,9 +105,16 @@ namespace Bubble {
         public bool GetIsShrinked() {
             return _isShrinked;
         }
+        public bool GetIsFree() {
+            return _isFree;
+        }
+
+
 
         public void ResetValue() {
+            Debug.Log("askojhdakjsildjlaskdjioklasdl;kjasdljksa");
             _isShrinked = false;
+            _isFree = false;
             _numberPylonesReached = 0;
             UpdateSize(initialSize - transform.localScale.x);
             //transform.localScale = new Vector3(initialSize, initialSize, 1);
@@ -114,9 +127,10 @@ namespace Bubble {
 
             _playerRb.gameObject.transform.position = new Vector3(0,0,0);
             //Reset Active player
-            _playerRb.gameObject.SetActive(true);
-
             this.GetComponentInChildren<Renderer>().enabled = true;
+
+            // Stop And StartCoroutine Creation
+            GetComponentInChildren<BubbleTargetsGenerator>().StartCoroutineGeneration();
         }
 
         public bool getIsNumberPylonesReached() {

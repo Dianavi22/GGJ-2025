@@ -1,5 +1,7 @@
 using Bubble;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -41,7 +43,6 @@ namespace Assets.Scripts {
 
         // Save InitialePosition
         private Transform _initialeBubbleTransform;
-        private float _initialeBubbleSize;
         private Transform _initialePlayerTransform;
 
 
@@ -69,7 +70,6 @@ namespace Assets.Scripts {
         public void Start() {
             _initialeBubbleTransform = laBulle.transform;
             _initialePlayerTransform = player.transform;
-            _initialeBubbleSize = laBulle.GetComponent<BubbleGrowth>().initialSize;
         }
 
         public void Update() {
@@ -145,7 +145,6 @@ namespace Assets.Scripts {
         // Game Managing Canvas Display
 
         public void StartGame() {
-            laBulle.GetComponent<BubbleGrowth>().ResetValue();
             ResetGame();
             Time.timeScale = 1.0f;
             isPlaying = true;
@@ -214,20 +213,35 @@ namespace Assets.Scripts {
             laBulle.transform.position = _initialeBubbleTransform.position;
             _isPaused = false;
 
-            //Reset All UII and Canvas to False
+            //Reset All UI and Canvas to False
             UICanvas.gameObject.SetActive(isPlaying);
             ShootingCanvas.gameObject.SetActive(isPlaying);
             PauseMenuCanvas.gameObject.SetActive(isPlaying);
             player.gameObject.SetActive(isPlaying);
+            player.SetActive(isPlaying);
             laBulle.gameObject.SetActive(isPlaying);
             //laBulle.gameObject.GetComponentInChildren<MeshRenderer>().is
+
+            //Reset SpawnerManager
             spawnerManager.gameObject.SetActive(isPlaying);
+            spawnerManager.ResetSpawnerManager();
+
+            // GameOver Canvas
             GameOverCanvas.gameObject.SetActive(isPlaying);
             GameOver_GO.SetActive(isPlaying);
-            MapAndAssets.gameObject.SetActive(isPlaying);
 
             //Reset Bulle Value
             laBulle.GetComponent<BubbleGrowth>().ResetValue();
+
+            // Remove All Nasty Worms
+            List<SimpleMonster> list = new List<SimpleMonster>();
+            list = FindObjectsByType<SimpleMonster>(FindObjectsSortMode.None).ToList();
+            list.ForEach(monster => Destroy(monster.gameObject));
+
+            // Remove All Boules
+            List<BubbleTargetPoint> listSphere = new List<BubbleTargetPoint>();
+            listSphere = FindObjectsByType<BubbleTargetPoint>(FindObjectsSortMode.None).ToList();
+            listSphere.ForEach(targetPoint => Destroy(targetPoint.gameObject));
         }
 
         public void DisplaySetting() {
